@@ -24,6 +24,87 @@
   [style*="cursor: pointer"]:hover{opacity:.82}
   @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ---------------- Mobile (<=760px) ----------------
+     Note: the runtime re-serializes inline styles via CSSOM, so the DOM's
+     style attribute has a space after every ':' and ','. Selectors below match
+     that serialized form. */
+  .sevcp-burger{display:none}
+  .m-hero-mobile{display:none}
+  .m-featured-link-btm{display:none}
+  @media (max-width:760px){
+    .m-featured-link-top{display:none!important}
+    .m-featured-link-btm{display:flex!important}
+    /* clip (not hidden) so the body doesn't become its own scroll container,
+       which would break window.scrollTo(0,0) on navigation */
+    html,body{overflow-x:clip;max-width:100%}
+    img{max-width:100%}
+
+    /* hamburger nav swaps in for the desktop links */
+    .sevcp-desktop-nav{display:none!important}
+    .sevcp-burger{display:flex!important;margin-left:auto}
+    .sevcp-headbar{min-height:58px!important;padding:9px 16px!important;flex-wrap:nowrap!important;gap:12px!important}
+
+    /* every responsive card/section grid -> one column */
+    [style*="grid-template-columns: repeat(auto-fit, minmax("],
+    [style*="grid-template-columns: repeat(auto-fill, minmax("]{grid-template-columns:1fr!important}
+
+    /* on mobile the desktop side-collage is hidden; a compact photo band shows
+       inline, just above the CTAs (see .m-hero-mobile) */
+    .m-hero-grid{display:none!important}
+    .m-hero-mobile{display:grid!important}
+    /* founder-school lesson strip 7 -> 3 */
+    [style*="grid-template-columns: repeat(7, minmax(0px, 1fr))"]{grid-template-columns:repeat(3,1fr)!important}
+    /* about-page 2-col photo grid: shorter */
+    [style*="grid-template-columns: repeat(2, minmax(0px, 1fr))"]{min-height:260px!important}
+
+    /* fewer featured companies on the homepage (keep the "explore all" link) */
+    .m-featured > *:nth-child(n+4){display:none!important}
+
+    /* metrics as a compact 2x2 instead of four tall stacked bands;
+       group value+label at the top (no awkward space-between gap) */
+    .m-metrics{grid-template-columns:repeat(2,1fr)!important}
+    .m-metrics > *{min-height:0!important;padding:22px 18px 24px!important;justify-content:flex-start!important;gap:10px!important}
+    .m-metrics [style*="font-size: clamp(44px, 4.4vw, 62px)"]{font-size:33px!important}
+
+    /* trim oversized card padding (generic prefix first, specific after) */
+    [style*="padding: 64px 56px"]{padding:34px 20px!important}
+    [style*="padding: 64px 56px 60px"]{padding:34px 20px 38px!important}
+    [style*="padding: 64px 56px 40px"]{padding:34px 20px 26px!important}
+    [style*="padding: 66px 56px"]{padding:34px 20px!important}
+    [style*="padding: 66px 56px 52px"]{padding:34px 20px 34px!important}
+    [style*="padding: 72px 56px 64px"]{padding:34px 20px 32px!important}
+    [style*="padding: 70px 56px"]{padding:34px 20px!important}
+    [style*="padding: 80px 56px"]{padding:44px 22px!important}
+    [style*="padding: 56px 46px"]{padding:30px 20px!important}
+    [style*="padding: 60px 46px"]{padding:32px 20px!important}
+    [style*="padding: 56px 44px 52px"]{padding:30px 20px 34px!important}
+    [style*="padding: 48px 48px 52px"]{padding:28px 20px 34px!important}
+    [style*="padding: 34px 48px 44px"]{padding:26px 20px 30px!important}
+    [style*="padding: 52px 30px 46px"]{padding:32px 18px 30px!important}
+
+    /* section rhythm + side gutters */
+    [style*="padding: 104px 32px 0"]{padding:54px 18px 0!important}
+    [style*="padding: 64px 32px 0"]{padding:40px 18px 0!important}
+    [style*="padding: 64px 32px 90px"]{padding:40px 18px 54px!important}
+    [style*="padding: 44px 32px 90px"]{padding:32px 18px 54px!important}
+    [style*="padding: 0px 32px"]{padding:0 16px!important}
+
+    /* sticky filter bar follows the shorter header */
+    [style*="top: 88px"]{top:54px!important}
+
+    /* hero eyebrow pill: shrink so it stays on one line */
+    [style*="letter-spacing: 0.13em"]{font-size:9.5px!important;letter-spacing:0.05em!important;white-space:nowrap!important}
+  }
+  @media (min-width:761px){
+    .sevcp-mobile-menu{display:none!important}
+    /* testimonials: keep the original 3-up grid on desktop (carousel is mobile-only) */
+    .t-carousel{max-width:1360px!important}
+    .t-viewport{overflow:visible!important;border-radius:0!important}
+    .t-track{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:20px!important;transform:none!important}
+    .t-slide{border-radius:24px!important;padding:34px 30px 30px!important;min-height:0!important}
+    .t-controls{display:none!important}
+  }
 </style>
 </helmet>
 
@@ -38,13 +119,14 @@
 </div>
 
 <header style="position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(14px)">
-  <div style="max-width:1360px;margin:0 auto;padding:14px 32px;min-height:88px;display:flex;align-items:center;gap:26px;flex-wrap:wrap">
+  <div class="sevcp-headbar" style="max-width:1360px;margin:0 auto;padding:14px 32px;min-height:88px;display:flex;align-items:center;gap:26px;flex-wrap:wrap">
     <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:14px;cursor:pointer;flex-shrink:0">
       <div style="font-size:23px;font-weight:600;letter-spacing:-.03em;color:#1C3F39">SEVCP</div>
       <div style="width:1px;height:26px;background:#E4E4DC"></div>
       <img src="uploads/sedc-logo.png" alt="South East Development Commission" style="height:20px;width:auto">
     </div>
-    <nav style="display:flex;align-items:center;gap:28px;margin-left:auto;flex-wrap:wrap">
+    <div class="sevcp-burger" onClick="{{ toggleMnav }}" style="width:46px;height:46px;border-radius:13px;background:#F4F4EE;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:19px;color:#1C3F39;line-height:1">{{ burgerIcon }}</div>
+    <nav class="sevcp-desktop-nav" style="display:flex;align-items:center;gap:28px;margin-left:auto;flex-wrap:wrap">
       <div onClick="{{ goAbout }}" style="font-size:15px;font-weight:400;cursor:pointer;color:#4A4A40" style-hover="color:#237922">About</div>
       <div onClick="{{ goDirectory }}" style="font-size:15px;font-weight:400;cursor:pointer;color:#4A4A40" style-hover="color:#237922">Portfolio</div>
       <div onClick="{{ goPitch }}" style="font-size:15px;font-weight:400;cursor:pointer;color:#4A4A40" style-hover="color:#237922">Pitch</div>
@@ -65,6 +147,18 @@
       <div onClick="{{ goPartners }}" style="font-size:14.5px;font-weight:500;padding:13px 24px;border-radius:100px;background:#1C3F39;color:#FCFFEE;cursor:pointer" style-hover="background:#237922">Partner with SEVCP</div>
     </nav>
   </div>
+  <sc-if value="{{ mnav }}" hint-placeholder-val="{{ false }}">
+    <div class="sevcp-mobile-menu" style="border-top:1px solid #EFEFE8;background:#FFFFFF;padding:8px 16px 18px;display:flex;flex-direction:column;gap:2px;animation:riseIn .16s ease-out">
+      <div onClick="{{ goAbout }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">About</div>
+      <div onClick="{{ goDirectory }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Portfolio</div>
+      <div onClick="{{ goPitch }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Pitch</div>
+      <div onClick="{{ goInsights }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">SEVCP Blog</div>
+      <div onClick="{{ goAcademy }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Founder School</div>
+      <div style="height:1px;background:#EFEFE8;margin:8px 4px"></div>
+      <div onClick="{{ openApply }}" style="padding:15px 12px;font-size:16.5px;font-weight:600;color:#1C3F39;cursor:pointer;border-radius:100px;background:#CAFC44;text-align:center">{{ applyLabel }}</div>
+      <div onClick="{{ goPartners }}" style="padding:15px 12px;font-size:16.5px;font-weight:600;color:#FCFFEE;cursor:pointer;border-radius:100px;background:#1C3F39;text-align:center;margin-top:6px">Partner with SEVCP</div>
+    </div>
+  </sc-if>
 </header>
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -78,6 +172,14 @@
         </div>
         <h1 style="font-size:clamp(40px,4.6vw,66px);line-height:1.02;letter-spacing:-.035em;font-weight:500;margin:0 0 26px;max-width:15ch;text-wrap:balance">Backing the founders building the next great companies from the <span style="color:#237922">South East</span>.</h1>
         <p style="font-size:19px;line-height:1.55;color:#5D5D52;max-width:48ch;margin:0 0 38px;text-wrap:pretty">SEVCP connects ambitious founders with capital, expertise and the ecosystem they need to build companies that scale.</p>
+        <div class="m-hero-mobile" style="display:none;grid-template-columns:repeat(3,1fr);gap:6px;grid-auto-rows:92px;border-radius:16px;overflow:hidden;margin-bottom:30px">
+          <img src="img/DON01013.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="img/DON01251.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="img/DON00519.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="img/DON00836.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="img/DON07445.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="img/h-DON00256.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:46px">
           <div onClick="{{ goDirectory }}" style="padding:16px 30px;background:#1C3F39;color:#FCFFEE;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer" style-hover="background:#237922">Explore Our Portfolio</div>
           <div onClick="{{ goPartners }}" style="padding:16px 30px;background:#FFFFFF;color:#35352B;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer;border:1px solid #E4E4DC" style-hover="border-color:#35352B">Partner with SEVCP</div>
@@ -87,7 +189,7 @@
           <div style="font-size:13px;color:#77776B;line-height:1.4">An initiative of the South East<br>Development Commission</div>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;min-width:0;min-height:560px;align-self:stretch">
+      <div class="m-hero-grid" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;min-width:0;min-height:560px;align-self:stretch">
         <img src="img/DON01013.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
         <img src="img/h-DON09977.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
         <img src="img/DON01251.jpg" alt="SEVCP 2026 cohort" style="width:100%;height:100%;object-fit:cover;display:block">
@@ -109,7 +211,7 @@
   </section>
 
   <section style="padding:64px 32px 0">
-    <div style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-radius:28px;overflow:hidden">
+    <div class="m-metrics" style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-radius:28px;overflow:hidden">
       <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
         <div style="background:{{ m.bg }};color:{{ m.fg }};padding:52px 30px 46px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between">
           <div style="font-size:clamp(44px,4.4vw,62px);font-weight:600;letter-spacing:-.045em;line-height:1">{{ m.value }}</div>
@@ -125,9 +227,9 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">Our Portfolio</div>
         <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0">Meet the companies we're backing.</h2>
       </div>
-      <div onClick="{{ goDirectory }}" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;border-radius:100px;background:#F9F9F9;cursor:pointer" style-hover="background:#CAFC44">Explore the full portfolio →</div>
+      <div onClick="{{ goDirectory }}" class="m-featured-link-top" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;border-radius:100px;background:#F9F9F9;cursor:pointer" style-hover="background:#CAFC44">Explore the full portfolio →</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px">
+    <div class="m-featured" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px">
       <sc-for list="{{ featured }}" as="c" hint-placeholder-count="6">
         <div onClick="{{ c.open }}" style="background:#F9F9F9;border-radius:24px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;transition:transform .2s" style-hover="transform:translateY(-4px)">
           <div style="position:relative;height:210px;background:{{ c.logoBg }};display:flex;align-items:center;justify-content:center;padding:38px">
@@ -147,6 +249,7 @@
         </div>
       </sc-for>
     </div>
+    <div onClick="{{ goDirectory }}" class="m-featured-link-btm" style="display:none;margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:16px 22px;border-radius:100px;background:#F9F9F9;cursor:pointer;align-items:center;justify-content:center;text-align:center" style-hover="background:#CAFC44">Explore the full portfolio →</div>
   </section>
 
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
@@ -193,23 +296,35 @@
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:40px">
       <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">In founders' words</div>
-        <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0;max-width:20ch">What the programme changed.</h2>
+        <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0;max-width:20ch">In founders' words</h2>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
-      <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
-        <div style="background:{{ t.bg }};color:{{ t.fg }};border-radius:24px;padding:34px 30px 30px;display:flex;flex-direction:column;gap:26px">
-          <div style="font-size:20px;line-height:1.45;letter-spacing:-.015em;flex:1;text-wrap:pretty">“{{ t.quote }}”</div>
-          <div style="display:flex;align-items:center;gap:14px">
-            <image-slot id="{{ t.slot }}" src="{{ t.photo }}" shape="circle" style="width:68px;height:68px;flex-shrink:0" placeholder=""></image-slot>
-            <div>
-              <div style="font-size:15.5px;font-weight:500">{{ t.name }}</div>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;opacity:.7;margin-top:4px">{{ t.role }}</div>
+    <div class="t-carousel" style="max-width:720px;margin:0 auto">
+      <div class="t-viewport" style="overflow:hidden;border-radius:24px">
+        <div class="t-track" style="display:flex;align-items:stretch;transform:translateX(-{{ tPct }}%);transition:transform .45s cubic-bezier(.4,0,.2,1)">
+          <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+            <div class="t-slide" style="flex:0 0 100%;box-sizing:border-box;background:{{ t.bg }};color:{{ t.fg }};padding:38px 34px 32px;display:flex;flex-direction:column;gap:26px;min-height:300px">
+              <div style="font-size:21px;line-height:1.45;letter-spacing:-.015em;flex:1;text-wrap:pretty">“{{ t.quote }}”</div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <image-slot id="{{ t.slot }}" src="{{ t.photo }}" shape="circle" style="width:68px;height:68px;flex-shrink:0" placeholder=""></image-slot>
+                <div>
+                  <div style="font-size:15.5px;font-weight:500">{{ t.name }}</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;opacity:.7;margin-top:4px">{{ t.role }}</div>
+                </div>
+              </div>
             </div>
-          </div>
+          </sc-for>
         </div>
-      </sc-for>
+      </div>
+      <div class="t-controls" style="display:flex;align-items:center;justify-content:center;gap:20px;margin-top:24px">
+        <div onClick="{{ tPrev }}" style="width:44px;height:44px;border-radius:50%;background:#F4F4EE;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:#1C3F39;flex-shrink:0;line-height:1;padding-bottom:2px" style-hover="background:#CAFC44">‹</div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <sc-for list="{{ tDots }}" as="d" hint-placeholder-count="3">
+            <div onClick="{{ d.go }}" style="width:{{ d.w }};height:8px;border-radius:100px;background:{{ d.bg }};cursor:pointer;transition:width .25s ease,background .25s ease"></div>
+          </sc-for>
+        </div>
+        <div onClick="{{ tNext }}" style="width:44px;height:44px;border-radius:50%;background:#F4F4EE;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:#1C3F39;flex-shrink:0;line-height:1;padding-bottom:2px" style-hover="background:#CAFC44">›</div>
+      </div>
     </div>
   </section>
 
@@ -232,7 +347,6 @@
                 <div style="width:6px;height:6px;border-radius:50%;background:{{ p.statusDot }}"></div>
                 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">{{ p.status }}</div>
               </div>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;opacity:.7">{{ p.stageLabel }}</div>
             </div>
             <div style="font-size:28px;font-weight:500;letter-spacing:-.03em">{{ p.title }}</div>
             <div style="font-size:15.5px;line-height:1.55;opacity:.82;flex:1">{{ p.body }}</div>
@@ -240,6 +354,19 @@
           </div>
         </div>
       </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
+    <div style="background:#1C3F39;color:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
+      <div style="padding:64px 56px">
+        <h2 style="font-size:clamp(30px,3.4vw,46px);line-height:1.05;letter-spacing:-.035em;font-weight:500;margin:0 0 20px;max-width:18ch;text-wrap:balance">The South East Pitch Competition.</h2>
+        <p style="font-size:18px;line-height:1.6;color:#C6D4CE;margin:0 0 32px;max-width:52ch;text-wrap:pretty">Our flagship startup discovery and investment programme. The inaugural edition drew 1,086 founder applications from across the five states and the diaspora — selected companies receive investment and a place in the Accelerator or Incubator.</p>
+        <div onClick="{{ goPitch }}" style="display:inline-block;padding:16px 30px;background:#CAFC44;color:#1C3F39;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer" style-hover="background:#FCFFEE">Explore the Pitch Competition →</div>
+      </div>
+      <div style="position:relative;min-height:340px">
+        <img src="img/h-DON00164.jpg" alt="Founder pitching at the South East Pitch Competition" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      </div>
     </div>
   </section>
 
@@ -1603,7 +1730,7 @@ function fallbackLogo(c){
 }
 
 class Component extends DCLogic {
-  state = {hero:0, menu:null, page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
+  state = {hero:0, menu:null, mnav:false, tIndex:0, page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
 
   BLOG = [
     {cat:'News', date:'12 Aug 2026', read:'4 min', photo:'img/DON01251.jpg', title:'SEVCP closes its first investment cycle with 25 companies backed', excerpt:'The inaugural Pitch Competition ended in Enugu with equity investment awarded across the Accelerator and Incubation tracks.', author:'SEVCP Team'},
@@ -1772,9 +1899,9 @@ class Component extends DCLogic {
 
   componentDidUpdate(){ this.syncRoute(); }
 
-  nav(page, extra){ this.setState(Object.assign({page:page, menu:null}, extra||{})); window.scrollTo(0,0); }
+  nav(page, extra){ this.setState(Object.assign({page:page, menu:null, mnav:false}, extra||{})); window.scrollTo(0,0); }
   toggleMenu(name){ this.setState(s => ({menu: s.menu === name ? null : name})); }
-  open(slug){ this.setState({page:'profile', slug:slug, modal:false, sent:false}); window.scrollTo(0,0); }
+  open(slug){ this.setState({page:'profile', slug:slug, modal:false, sent:false, mnav:false}); window.scrollTo(0,0); }
 
   decorate(c){
     return Object.assign({}, c, {
@@ -1849,6 +1976,16 @@ class Component extends DCLogic {
 
   renderVals(){
     const s = this.state;
+    const TESTI = [
+      {slot:'quote-1', photo:'img/p-DON00022.jpg', bg:'#FCFFEE', fg:'#35352B', name:'Awaiting approval', role:'Accelerator founder, 2026 cohort',
+       quote:'Placeholder quote — replace with an approved founder statement naming a specific outcome SEVCP unlocked (an introduction, a contract, a raise).'},
+      {slot:'quote-2', photo:'img/p-DON00490.jpg', bg:'#1C3F39', fg:'#FCFFEE', name:'Awaiting approval', role:'Accelerator founder, 2026 cohort',
+       quote:'Placeholder quote — the strongest version cites a number: customers added, revenue moved, capital raised after the programme.'},
+      {slot:'quote-3', photo:'img/p-DON00519.jpg', bg:'#F9F9F9', fg:'#35352B', name:'Awaiting approval', role:'Incubator founder, 2026 cohort',
+       quote:'Placeholder quote — one sentence on what changed operationally between joining the cohort and today.'}
+    ];
+    const tLen = TESTI.length;
+    const tIdx = Math.min(s.tIndex || 0, tLen - 1);
     const D = s.data;
     const CO = D ? D.CO : [];
     const STATIC = D ? D.STATIC : {};
@@ -1927,6 +2064,9 @@ class Component extends DCLogic {
       resourcesOpen: s.menu === 'resources',
       resourcesColor: s.menu === 'resources' ? '#237922' : '#4A4A40',
       toggleResources: () => this.toggleMenu('resources'),
+      mnav: s.mnav,
+      burgerIcon: s.mnav ? '✕' : '☰',
+      toggleMnav: () => this.setState(x => ({mnav: !x.mnav, menu:null})),
       resourcesMenu: [
         {label:'SEVCP Blog', note:'Founder stories, portfolio news and research', go: () => this.nav('insights')},
         {label:'Founder School', note:'Company-building material, templates and guides', go: () => this.nav('academy')}
@@ -1979,17 +2119,17 @@ class Component extends DCLogic {
       ],
       programs: [
         {title:'Incubator',slot:'prog-incubator',photo:'img/DON01077.jpg',photoNote:'Incubator cohort session',stageLabel:'Idea → Validation',status: open ? 'Applications open' : 'Applications closed',statusDot: open ? '#237922' : '#A3A398',bg:'#F9F9F9',fg:'#35352B',pillBg:'#FFFFFF',body:'For founders validating products, markets and business models — turning validated ideas into investable companies.',cta:'Selected through the Pitch Competition'},
-        {title:'Accelerator',slot:'prog-accelerator',photo:'img/DON01186.jpg',photoNote:'Accelerator company at work',stageLabel:'Traction → Scale',status: open ? 'Applications open' : 'Applications closed',statusDot: open ? '#CAFC44' : '#8FA79F',bg:'#1C3F39',fg:'#FCFFEE',pillBg:'#2A5049',body:'For companies with traction preparing for their next stage of growth, distribution and investor readiness.',cta:'Selected through the Pitch Competition'},
-        {title:'Pitch Competition',slot:'prog-pitch',photo:'img/DON01112.jpg',photoNote:'Pitch competition finals stage',stageLabel:'Discovery → Investment',status:'2026 edition closed',statusDot:'#E86642',bg:'#FCFFEE',fg:'#35352B',pillBg:'#FFFFFF',body:'SEVCP\u2019s flagship startup discovery and investment programme. 1,086 applications to the inaugural edition.',cta:'Explore the Pitch Competition →'}
+        {title:'Accelerator',slot:'prog-accelerator',photo:'img/DON01186.jpg',photoNote:'Accelerator company at work',stageLabel:'Traction → Scale',status: open ? 'Applications open' : 'Applications closed',statusDot: open ? '#CAFC44' : '#8FA79F',bg:'#1C3F39',fg:'#FCFFEE',pillBg:'#2A5049',body:'For companies with traction preparing for their next stage of growth, distribution and investor readiness.',cta:'Selected through the Pitch Competition'}
       ],
-      testimonials: [
-        {slot:'quote-1', photo:'img/p-DON00022.jpg', bg:'#FCFFEE', fg:'#35352B', name:'Awaiting approval', role:'Accelerator founder, 2026 cohort',
-         quote:'Placeholder quote — replace with an approved founder statement naming a specific outcome SEVCP unlocked (an introduction, a contract, a raise).'},
-        {slot:'quote-2', photo:'img/p-DON00490.jpg', bg:'#1C3F39', fg:'#FCFFEE', name:'Awaiting approval', role:'Accelerator founder, 2026 cohort',
-         quote:'Placeholder quote — the strongest version cites a number: customers added, revenue moved, capital raised after the programme.'},
-        {slot:'quote-3', photo:'img/p-DON00519.jpg', bg:'#F9F9F9', fg:'#35352B', name:'Awaiting approval', role:'Incubator founder, 2026 cohort',
-         quote:'Placeholder quote — one sentence on what changed operationally between joining the cohort and today.'}
-      ],
+      testimonials: TESTI,
+      tPct: tIdx * 100,
+      tPrev: () => this.setState(x => ({tIndex: (((x.tIndex || 0) - 1) + tLen) % tLen})),
+      tNext: () => this.setState(x => ({tIndex: ((x.tIndex || 0) + 1) % tLen})),
+      tDots: TESTI.map((_, i) => ({
+        go: () => this.setState({tIndex: i}),
+        bg: i === tIdx ? '#237922' : '#D3D3C8',
+        w: i === tIdx ? '22px' : '8px'
+      })),
       fundFacts: [
         {value:'$50M',label:'Target fund size'},
         {value:'$50K–$2M',label:'Investment range'},
@@ -2058,7 +2198,7 @@ class Component extends DCLogic {
       applyDoneBody: open ? 'The SEVCP investment team will review your application and follow up if your company is a fit for the current cycle.' : 'The SEVCP team will review your company and let you know as soon as the next cohort opens.',
       applyStates: ['Abia','Anambra','Ebonyi','Enugu','Imo','Diaspora / elsewhere'].map(o => this.chip(s.applyState === o, () => this.setState({applyState:o}), o)),
       applyStages: ['Idea / MVP','Pre-revenue','Early revenue','Scaling'].map(o => this.chip(s.applyStage === o, () => this.setState({applyStage:o}), o)),
-      openApply: () => this.setState({apply:true, applySent:false, menu:null}),
+      openApply: () => this.setState({apply:true, applySent:false, menu:null, mnav:false}),
       closeApply: () => this.setState({apply:false, applySent:false}),
       closeApplyBrowse: () => this.setState({apply:false, applySent:false, page:'startups'}, () => window.scrollTo(0,0)),
       submitApply: () => this.setState({applySent:true}),
