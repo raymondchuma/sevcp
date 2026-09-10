@@ -1,6 +1,108 @@
 {
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/company/ondigo",
+      "destination": "/company/ondigo.html"
+    },
+    {
+      "source": "/company/skilladder",
+      "destination": "/company/skilladder.html"
+    },
+    {
+      "source": "/company/kira-ai",
+      "destination": "/company/kira-ai.html"
+    },
+    {
+      "source": "/company/rapidmedicare",
+      "destination": "/company/rapidmedicare.html"
+    },
+    {
+      "source": "/company/smartairs",
+      "destination": "/company/smartairs.html"
+    },
+    {
+      "source": "/company/bra-x",
+      "destination": "/company/bra-x.html"
+    },
+    {
+      "source": "/company/stur-africa",
+      "destination": "/company/stur-africa.html"
+    },
+    {
+      "source": "/company/nigenius",
+      "destination": "/company/nigenius.html"
+    },
+    {
+      "source": "/company/spaceops",
+      "destination": "/company/spaceops.html"
+    },
+    {
+      "source": "/company/flof",
+      "destination": "/company/flof.html"
+    },
+    {
+      "source": "/company/case-radar",
+      "destination": "/company/case-radar.html"
+    },
+    {
+      "source": "/company/strag",
+      "destination": "/company/strag.html"
+    },
+    {
+      "source": "/company/8bit",
+      "destination": "/company/8bit.html"
+    },
+    {
+      "source": "/company/agrofuxion",
+      "destination": "/company/agrofuxion.html"
+    },
+    {
+      "source": "/company/afiari",
+      "destination": "/company/afiari.html"
+    },
+    {
+      "source": "/company/health-vault",
+      "destination": "/company/health-vault.html"
+    },
+    {
+      "source": "/company/vibet-bio",
+      "destination": "/company/vibet-bio.html"
+    },
+    {
+      "source": "/company/wattmuse",
+      "destination": "/company/wattmuse.html"
+    },
+    {
+      "source": "/company/kobotrac",
+      "destination": "/company/kobotrac.html"
+    },
+    {
+      "source": "/company/simsak",
+      "destination": "/company/simsak.html"
+    },
+    {
+      "source": "/company/growdex",
+      "destination": "/company/growdex.html"
+    },
+    {
+      "source": "/company/farmi-ai",
+      "destination": "/company/farmi-ai.html"
+    },
+    {
+      "source": "/company/cng-protect",
+      "destination": "/company/cng-protect.html"
+    },
+    {
+      "source": "/company/linia-finance",
+      "destination": "/company/linia-finance.html"
+    },
+    {
+      "source": "/company/keke-ride",
+      "destination": "/company/keke-ride.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
