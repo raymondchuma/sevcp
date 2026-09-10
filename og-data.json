@@ -1,0 +1,177 @@
+[
+  {
+    "slug": "ondigo",
+    "name": "Ondigo Technologies",
+    "tagline": "Digital fare collection hardware for public transport operators.",
+    "sector": "Mobility & Transport",
+    "state": "Enugu"
+  },
+  {
+    "slug": "skilladder",
+    "name": "Skilladder",
+    "tagline": "Assessment infrastructure for African hiring.",
+    "sector": "EdTech",
+    "state": "Anambra"
+  },
+  {
+    "slug": "kira-ai",
+    "name": "Kira AI",
+    "tagline": "Send money and manage banking tasks inside WhatsApp.",
+    "sector": "FinTech",
+    "state": "Enugu"
+  },
+  {
+    "slug": "rapidmedicare",
+    "name": "RapidMedicare",
+    "tagline": "AI-powered health insurance and care delivery for the uninsured.",
+    "sector": "HealthTech",
+    "state": "Anambra"
+  },
+  {
+    "slug": "smartairs",
+    "name": "SmartAIRS",
+    "tagline": "Digital revenue infrastructure for Nigerian state governments.",
+    "sector": "GovTech",
+    "state": "Abia"
+  },
+  {
+    "slug": "bra-x",
+    "name": "Bra-X",
+    "tagline": "A smart bra for continuous, non-invasive breast health monitoring.",
+    "sector": "HealthTech",
+    "state": "Imo"
+  },
+  {
+    "slug": "stur-africa",
+    "name": "Stur Africa",
+    "tagline": "An agentic storefront that runs commerce on autopilot.",
+    "sector": "Commerce & Retail",
+    "state": "Imo"
+  },
+  {
+    "slug": "nigenius",
+    "name": "Nigenius",
+    "tagline": "Africa’s first offline robotics learning platform.",
+    "sector": "EdTech",
+    "state": "Imo"
+  },
+  {
+    "slug": "spaceops",
+    "name": "SpaceOps",
+    "tagline": "The operating system for physical space.",
+    "sector": "Enterprise Software",
+    "state": "Enugu"
+  },
+  {
+    "slug": "flof",
+    "name": "FLOF Mart",
+    "tagline": "Omnichannel hard-discount grocery for everyday essentials.",
+    "sector": "Commerce & Retail",
+    "state": "Enugu"
+  },
+  {
+    "slug": "case-radar",
+    "name": "Case Radar",
+    "tagline": "AI legal guidance in plain language.",
+    "sector": "LegalTech",
+    "state": "Ebonyi"
+  },
+  {
+    "slug": "strag",
+    "name": "Smart Transport Grid (STRAG)",
+    "tagline": "An integrated digital transport ecosystem for states and commuters.",
+    "sector": "Mobility & Transport",
+    "state": "Enugu"
+  },
+  {
+    "slug": "8bit",
+    "name": "8Bit Digital Systems",
+    "tagline": "IoT smart energy monitoring and automation for homes and businesses.",
+    "sector": "Energy & IoT",
+    "state": "Enugu"
+  },
+  {
+    "slug": "agrofuxion",
+    "name": "AgroFuxion (Climax Green)",
+    "tagline": "Credit, savings and crop insurance for smallholder farmers over USSD.",
+    "sector": "AgriTech",
+    "state": "Anambra"
+  },
+  {
+    "slug": "afiari",
+    "name": "Afiari",
+    "tagline": "First-party market intelligence for FMCG and manufacturing.",
+    "sector": "Commerce & Retail",
+    "state": "Imo"
+  },
+  {
+    "slug": "health-vault",
+    "name": "Health Vault NG",
+    "tagline": "Patient-owned digital health records.",
+    "sector": "HealthTech",
+    "state": "Enugu"
+  },
+  {
+    "slug": "vibet-bio",
+    "name": "VIBET BIO",
+    "tagline": "An AI operating system for primary care clinics.",
+    "sector": "HealthTech",
+    "state": "Enugu"
+  },
+  {
+    "slug": "wattmuse",
+    "name": "Wattmuse Energy",
+    "tagline": "Financing and distribution infrastructure for clean energy.",
+    "sector": "Energy & IoT",
+    "state": "Enugu"
+  },
+  {
+    "slug": "kobotrac",
+    "name": "KoboTrac",
+    "tagline": "An AI financial assistant that works over chat.",
+    "sector": "FinTech",
+    "state": "Enugu"
+  },
+  {
+    "slug": "simsak",
+    "name": "Simsak",
+    "tagline": "One platform for creators to sell, get paid and run their business.",
+    "sector": "Commerce & Retail",
+    "state": "Enugu"
+  },
+  {
+    "slug": "growdex",
+    "name": "Growdex",
+    "tagline": "AI advertising management across every channel.",
+    "sector": "Enterprise Software",
+    "state": "Enugu"
+  },
+  {
+    "slug": "farmi-ai",
+    "name": "Farmi AI",
+    "tagline": "What to grow, when to sell, how to price.",
+    "sector": "AgriTech",
+    "state": "Anambra"
+  },
+  {
+    "slug": "cng-protect",
+    "name": "CNG Protect",
+    "tagline": "An Edge-AI blackbox preventing gas explosions in CNG vehicles.",
+    "sector": "Energy & IoT",
+    "state": "Enugu"
+  },
+  {
+    "slug": "linia-finance",
+    "name": "Linia Finance",
+    "tagline": "Budgeting and banking in one place.",
+    "sector": "FinTech",
+    "state": "Enugu"
+  },
+  {
+    "slug": "keke-ride",
+    "name": "Keke Ride",
+    "tagline": "Ride-hailing for keke and okada in underserved cities.",
+    "sector": "Mobility & Transport",
+    "state": "Ebonyi"
+  }
+]

@@ -21,10 +21,12 @@ class Handler(SimpleHTTPRequestHandler):
 
     def send_head(self):
         parsed = urlparse(self.path)
+        p = parsed.path
         fs = self.translate_path(self.path)
-        # Extensionless path that isn't a real file -> a client-side route.
-        if not os.path.exists(fs) and not os.path.splitext(parsed.path)[1]:
-            self.path = "/index.html"
+        if not os.path.exists(fs) and not os.path.splitext(p)[1]:
+            # cleanUrls parity: prefer a prerendered <path>.html, else SPA fallback.
+            cand = self.translate_path(p.rstrip("/") + ".html")
+            self.path = (p.rstrip("/") + ".html") if os.path.exists(cand) else "/index.html"
         return super().send_head()
 
 
