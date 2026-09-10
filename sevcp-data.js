@@ -82,12 +82,41 @@ export const CO = [
 
 const PHOTOS = ['DON00022','DON00417','DON00459','DON00490','DON00519','DON00790','DON00837','DON00931','DON01013','DON01157','DON09988','DON00948'];
 
+const WEBSITES = {
+  'ondigo':'https://www.ondigo-ng.com',
+  'skilladder':'https://skilladder.ai',
+  'kira-ai':'https://sendwithkira.com',
+  'rapidmedicare':'https://www.rapidmed.care',
+  'smartairs':'https://payabia.smartairs.tax',
+  'bra-x':'https://bra-x.netlify.app',
+  'stur-africa':'https://www.stur.africa',
+  'nigenius':'https://nigenius.com.ng',
+  'spaceops':'https://www.spaceops.co',
+  'flof':'https://www.flofmart.com',
+  'case-radar':'https://www.caseradar.ai',
+  'strag':'https://strag.ng',
+  '8bit':'https://8bit.ng',
+  'agrofuxion':'https://climaxgreen.com',
+  'afiari':'https://afiari.com',
+  'health-vault':'https://health-v2-827d1.web.app',
+  'vibet-bio':'https://vibetbio.com',
+  'wattmuse':'https://creationenergy.xyz',
+  'kobotrac':'https://kobotrac.com',
+  'simsak':'https://www.simsak.co',
+  'growdex':'https://www.growdex.ai',
+  'farmi-ai':'https://farmi-ai.com',
+  'cng-protect':'https://cngprotect.netlify.app',
+  'linia-finance':'https://www.linia.cc',
+  'keke-ride':'https://getkeke.com'
+};
+
 CO.forEach((c,i) => {
   c.cohort = '2026';
   c.slot = 'co-' + c.slug;
   c.photo = 'img/' + PHOTOS[i % PHOTOS.length] + '.jpg';
   c.tint = TINTS[i % TINTS.length];
   c.featured = ['kira-ai','flof','spaceops','health-vault','growdex','simsak'].indexOf(c.slug) > -1;
+  c.website = WEBSITES[c.slug] || '';
 });
 
 export const REASONS = ['Investment','Partnership','Become a Customer','Corporate Opportunity','Distribution','Media','Mentorship / Advisory','Other'];
