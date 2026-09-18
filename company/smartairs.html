@@ -1083,24 +1083,26 @@
     </div>
   </section>
 
-  <section style="max-width:1360px;margin:0 auto;padding:36px 32px 100px">
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#77776B;margin-bottom:20px">{{ finalistCount }} finalists · {{ finalistYearLabel }}</div>
+  <section style="max-width:1360px;margin:0 auto;padding:32px 32px 100px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px">
+      <sc-for list="{{ finalistTracks }}" as="t" hint-placeholder-count="3">
+        <div onClick="{{ t.pick }}" style="padding:9px 18px;border-radius:100px;background:{{ t.bg }};color:{{ t.fg }};font-size:13.5px;font-weight:500;cursor:pointer">{{ t.label }} · {{ t.count }}</div>
+      </sc-for>
+    </div>
     <div style="border-top:1px solid #EDEDE5">
       <sc-for list="{{ finalists }}" as="f" hint-placeholder-count="12">
-        <div style="display:flex;align-items:flex-start;gap:24px;padding:22px 4px;border-bottom:1px solid #EDEDE5;flex-wrap:wrap">
+        <div onClick="{{ f.click }}" style="display:flex;align-items:center;gap:24px;padding:22px 8px;border-bottom:1px solid #EDEDE5;flex-wrap:wrap;cursor:pointer" style-hover="background:#FCFFEE">
           <div style="flex:1 1 220px;min-width:0">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <div style="font-size:18px;font-weight:500;letter-spacing:-.02em">{{ f.name }}</div>
               <sc-if value="{{ f.isPortfolio }}" hint-placeholder-val="{{ false }}">
-                <div onClick="{{ f.open }}" style="flex-shrink:0;padding:4px 10px;border-radius:100px;background:#CAFC44;color:#1C3F39;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#1C3F39;color:#FCFFEE">Portfolio</div>
+                <div style="flex-shrink:0;padding:4px 10px;border-radius:100px;background:#CAFC44;color:#1C3F39;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase">Portfolio</div>
               </sc-if>
             </div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#237922;margin-top:7px">{{ f.sector }}</div>
           </div>
-          <div style="flex:2 1 360px;min-width:0;font-size:14.5px;line-height:1.55;color:#5D5D52;text-wrap:pretty">{{ f.blurb }}</div>
-          <sc-if value="{{ f.hasSite }}" hint-placeholder-val="{{ true }}">
-            <a href="{{ f.website }}" target="_blank" rel="noopener noreferrer" style="flex:0 0 auto;font-size:13px;font-weight:500;color:#237922;text-decoration:none;white-space:nowrap;padding-top:3px">{{ f.siteLabel }} ↗</a>
-          </sc-if>
+          <div style="flex:2 1 340px;min-width:0;font-size:14.5px;line-height:1.55;color:#5D5D52;text-wrap:pretty">{{ f.blurb }}</div>
+          <div style="flex:0 0 auto;color:#A3A398;font-size:17px;align-self:center">→</div>
         </div>
       </sc-for>
     </div>
@@ -1550,6 +1552,38 @@
   </div>
 </footer>
 
+<sc-if value="{{ finalistOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:82;background:rgba(28,63,57,.55);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px">
+  <div style="background:#FFFFFF;width:100%;max-width:620px;border-radius:28px;overflow:hidden;animation:riseIn .22s ease-out">
+    <div style="padding:32px 36px 0;display:flex;justify-content:space-between;gap:20px;align-items:flex-start">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#237922;margin-bottom:14px">2026 Pitch Competition finalist</div>
+        <h3 style="font-size:28px;font-weight:500;letter-spacing:-.03em;margin:0;line-height:1.15">{{ fName }}</h3>
+      </div>
+      <div onClick="{{ closeFinalist }}" style="font-size:22px;color:#A3A398;cursor:pointer;line-height:1" style-hover="color:#35352B">×</div>
+    </div>
+    <div style="padding:16px 36px 0;display:flex;gap:8px;flex-wrap:wrap">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:100px;background:#F4F4EE;color:#5D5D52">{{ fSector }}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:100px;background:#F4F4EE;color:#5D5D52">SEVCP {{ fTrackLabel }}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:100px;background:#F4F4EE;color:#5D5D52">{{ fState }} State</div>
+    </div>
+    <div style="padding:22px 36px 0"><p style="font-size:15.5px;line-height:1.62;color:#35352B;margin:0;text-wrap:pretty">{{ fAbout }}</p></div>
+    <sc-if value="{{ fHasSite }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:16px 36px 0"><a href="{{ fSite }}" target="_blank" rel="noopener noreferrer" style="font-size:14px;font-weight:500;color:#237922;text-decoration:none">{{ fSiteLabel }} ↗</a></div>
+    </sc-if>
+    <div style="padding:26px 36px 34px">
+      <div style="background:#FCFFEE;border-radius:20px;padding:22px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:15.5px;font-weight:500;margin-bottom:4px">Want an introduction?</div>
+          <div style="font-size:13.5px;color:#77776B;line-height:1.5">Tell us why you’d like to connect and the SEVCP team will review the request.</div>
+        </div>
+        <div onClick="{{ reqFinalistIntro }}" style="padding:14px 24px;border-radius:100px;background:#1C3F39;color:#FCFFEE;font-weight:500;font-size:14.5px;cursor:pointer;white-space:nowrap" style-hover="background:#237922">Request an Introduction</div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
 <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:fixed;inset:0;z-index:80;background:rgba(28,63,57,.55);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px">
   <div style="background:#FFFFFF;width:100%;max-width:680px;border-radius:28px;overflow:hidden;animation:riseIn .22s ease-out">
@@ -1557,7 +1591,7 @@
       <div style="padding:34px 36px 12px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start">
         <div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#237922;margin-bottom:14px">Introduction request</div>
-          <h3 style="font-size:28px;font-weight:500;letter-spacing:-.03em;margin:0 0 12px;line-height:1.15">Request an introduction to {{ co.name }}</h3>
+          <h3 style="font-size:28px;font-weight:500;letter-spacing:-.03em;margin:0 0 12px;line-height:1.15">Request an introduction to {{ introName }}</h3>
           <p style="font-size:15px;line-height:1.6;color:#77776B;margin:0;max-width:52ch">Tell us a little about yourself and why you'd like to connect. The SEVCP team will review your request and, where appropriate, facilitate an introduction.</p>
         </div>
         <div onClick="{{ closeModal }}" style="font-size:22px;color:#A3A398;cursor:pointer;line-height:1" style-hover="color:#35352B">×</div>
@@ -1790,7 +1824,7 @@ function fallbackLogo(c){
 }
 
 class Component extends DCLogic {
-  state = {hero:0, menu:null, mnav:false, tIndex:0, page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
+  state = {hero:0, menu:null, mnav:false, tIndex:0, fOpen:false, fSel:null, introTo:'', finalistTrack:'All', page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
 
   BLOG = [
     {cat:'News', date:'12 Aug 2026', read:'4 min', photo:'img/DON01251.jpg', title:'SEVCP closes its first investment cycle with 25 companies backed', excerpt:'The inaugural Pitch Competition ended in Enugu with equity investment awarded across the Accelerator and Incubation tracks.', author:'SEVCP Team'},
@@ -2056,6 +2090,10 @@ class Component extends DCLogic {
     const fYear = s.finalistYear || fYears[fYears.length - 1];
     const fExtra = D ? (D.FINALISTS_EXTRA[fYear] || []) : [];
     const fFundedYr = CO.filter(c => c.cohort === fYear);
+    const fTrack = s.finalistTrack || 'All';
+    const fAll = fFundedYr.map(c => ({name:c.name, sector:c.sector, blurb:c.tagline, track:c.program, isPortfolio:true, click:()=>this.open(c.slug)}))
+      .concat(fExtra.map(f => ({name:f.name, sector:f.sector, blurb:f.blurb, track:f.track, isPortfolio:false, click:()=>this.setState({fOpen:true, fSel:f})})));
+    const fShown = (fTrack === 'All' ? fAll : fAll.filter(x => x.track === fTrack)).slice().sort((a,b) => a.name.localeCompare(b.name));
     const REASONS = D ? D.REASONS : [];
     const blank = {name:'', tagline:'', mark:'', tint:'#237922', sector:'', state:'', program:'', cohort:'', about:'', logo:'', snapshot:[], slot:'co-empty', photoNote:'Company photo'};
     const co = CO.find(c => c.slug === s.slug) || CO[0] || blank;
@@ -2131,8 +2169,7 @@ class Component extends DCLogic {
       isFinalistsPage: s.page === 'finalists',
       goFinalists: () => this.nav('finalists'),
       finalistYearLabel: fYear,
-      finalistCount: String(fFundedYr.length + fExtra.length),
-      showFinalistTabs: fYears.length > 1,
+      finalistCount: String(fShown.length),
       finalistYears: fYears.map(y => ({
         label: y, active: y === fYear,
         bg: y === fYear ? '#CAFC44' : 'transparent',
@@ -2140,15 +2177,26 @@ class Component extends DCLogic {
         bd: y === fYear ? '#CAFC44' : '#4B6F68',
         pick: () => this.setState({finalistYear: y})
       })),
-      finalists: fFundedYr.map(c => ({
-          name: c.name, sector: c.sector, blurb: c.tagline, website: c.website,
-          hasSite: !!c.website, siteLabel: (c.website||'').replace(/^https?:\/\//,'').replace(/\/$/,''),
-          isPortfolio: true, open: () => this.open(c.slug)
-        })).concat(fExtra.map(f => ({
-          name: f.name, sector: f.sector, blurb: f.blurb, website: f.website,
-          hasSite: !!f.website, siteLabel: (f.website||'').replace(/^https?:\/\//,'').replace(/\/$/,''),
-          isPortfolio: false, open: null
-        }))).sort((a,b) => a.name.localeCompare(b.name)),
+      finalistTracks: ['All','Accelerator','Incubator'].map(t => {
+        const active = t === fTrack;
+        const n = t === 'All' ? fAll.length : fAll.filter(x => x.track === t).length;
+        return {label: t, count: String(n), active,
+          bg: active ? '#1C3F39' : '#F4F4EE', fg: active ? '#FCFFEE' : '#5D5D52',
+          pick: () => this.setState({finalistTrack: t})};
+      }),
+      finalists: fShown,
+      finalistOpen: s.fOpen,
+      fName: s.fSel ? s.fSel.name : '',
+      fTrackLabel: s.fSel ? s.fSel.track : '',
+      fState: s.fSel ? s.fSel.state : '',
+      fSector: s.fSel ? s.fSel.sector : '',
+      fAbout: s.fSel ? (s.fSel.about || s.fSel.blurb) : '',
+      fSite: s.fSel ? s.fSel.website : '',
+      fHasSite: !!(s.fSel && s.fSel.website),
+      fSiteLabel: s.fSel ? (s.fSel.website||'').replace(/^https?:\/\//,'').replace(/\/$/,'') : '',
+      closeFinalist: () => this.setState({fOpen: false}),
+      reqFinalistIntro: () => this.setState(st => ({fOpen: false, modal: true, sent: false, consent: false, introTo: st.fSel ? st.fSel.name : ''})),
+      introName: s.introTo || (co ? co.name : ''),
       resourcesOpen: s.menu === 'resources',
       resourcesColor: s.menu === 'resources' ? '#237922' : '#4A4A40',
       toggleResources: () => this.toggleMenu('resources'),
@@ -2294,7 +2342,7 @@ class Component extends DCLogic {
       modalOpen: s.modal,
       sent: s.sent,
       notSent: !s.sent,
-      openModal: () => this.setState({modal:true, sent:false, consent:false}),
+      openModal: () => this.setState({modal:true, sent:false, consent:false, introTo: co.name}),
       closeModal: () => this.setState({modal:false, sent:false}),
       closeAndBrowse: () => this.setState({modal:false, sent:false, page:'startups'}, () => window.scrollTo(0,0)),
       reasons: REASONS.map(r => this.chip(s.reason === r, () => this.setState({reason:r}), r)),
