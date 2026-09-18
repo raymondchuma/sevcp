@@ -96,6 +96,7 @@
     [style*="padding: 70px 56px"]{padding:34px 20px!important}
     [style*="padding: 80px 56px"]{padding:44px 22px!important}
     [style*="padding: 56px 46px"]{padding:30px 20px!important}
+    [style*="padding: 56px 56px 48px"]{padding:32px 20px 28px!important}
     [style*="padding: 60px 46px"]{padding:32px 20px!important}
     [style*="padding: 56px 44px 52px"]{padding:30px 20px 34px!important}
     [style*="padding: 48px 48px 52px"]{padding:28px 20px 34px!important}
@@ -806,7 +807,7 @@
         <p style="font-size:19px;line-height:1.55;color:#C9D6D2;max-width:50ch;margin:0 0 38px;text-wrap:pretty">A national competition that identifies high-potential startups from across the South East and connects them with capital, mentorship and structured ecosystem support. It is the primary pipeline into the South East Venture Capital Fund.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px">
           <div onClick="{{ openApply }}" style="padding:16px 30px;background:#CAFC44;color:#1C3F39;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer" style-hover="background:#FCFFEE">{{ applyLabel }}</div>
-          <div onClick="{{ goAbout }}" style="padding:16px 30px;background:transparent;color:#FCFFEE;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer;border:1px solid #4B6F68" style-hover="border-color:#FCFFEE">Learn more about SEVCP</div>
+          <div onClick="{{ goFinalists }}" style="padding:16px 30px;background:transparent;color:#FCFFEE;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer;border:1px solid #4B6F68" style-hover="border-color:#FCFFEE">See the 2026 finalists →</div>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;min-width:0;min-height:520px;align-self:stretch">
@@ -1065,6 +1066,46 @@
     </div>
   </section>
 
+</main>
+</sc-if>
+
+<sc-if value="{{ isFinalistsPage }}" hint-placeholder-val="{{ false }}">
+<main style="flex:1">
+  <section style="padding:0 32px">
+    <div style="max-width:1360px;margin:0 auto;background:#1C3F39;color:#FCFFEE;border-radius:28px;padding:56px 56px 48px">
+      <div onClick="{{ goPitch }}" style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#CAFC44;cursor:pointer;margin-bottom:24px">← Pitch Competition</div>
+      <h1 style="font-size:clamp(36px,4.4vw,58px);line-height:1.03;letter-spacing:-.035em;font-weight:500;margin:0 0 28px;max-width:16ch">Our finalists.</h1>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <sc-for list="{{ finalistYears }}" as="y" hint-placeholder-count="1">
+          <div onClick="{{ y.pick }}" style="padding:10px 24px;border-radius:100px;background:{{ y.bg }};color:{{ y.fg }};border:1px solid {{ y.bd }};font-weight:500;font-size:15px;cursor:pointer">{{ y.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1360px;margin:0 auto;padding:36px 32px 100px">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#77776B;margin-bottom:20px">{{ finalistCount }} finalists · {{ finalistYearLabel }}</div>
+    <div style="border-top:1px solid #EDEDE5">
+      <sc-for list="{{ finalists }}" as="f" hint-placeholder-count="12">
+        <div style="display:flex;align-items:flex-start;gap:24px;padding:22px 4px;border-bottom:1px solid #EDEDE5;flex-wrap:wrap">
+          <div style="flex:1 1 220px;min-width:0">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <div style="font-size:18px;font-weight:500;letter-spacing:-.02em">{{ f.name }}</div>
+              <sc-if value="{{ f.isPortfolio }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ f.open }}" style="flex-shrink:0;padding:4px 10px;border-radius:100px;background:#CAFC44;color:#1C3F39;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer" style-hover="background:#1C3F39;color:#FCFFEE">Portfolio</div>
+              </sc-if>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#237922;margin-top:7px">{{ f.sector }}</div>
+          </div>
+          <div style="flex:2 1 360px;min-width:0;font-size:14.5px;line-height:1.55;color:#5D5D52;text-wrap:pretty">{{ f.blurb }}</div>
+          <sc-if value="{{ f.hasSite }}" hint-placeholder-val="{{ true }}">
+            <a href="{{ f.website }}" target="_blank" rel="noopener noreferrer" style="flex:0 0 auto;font-size:13px;font-weight:500;color:#237922;text-decoration:none;white-space:nowrap;padding-top:3px">{{ f.siteLabel }} ↗</a>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="font-size:12.5px;color:#A3A398;margin-top:34px;max-width:72ch;line-height:1.55">Finalists reached the final round of the SEVCP Pitch Competition. Investment decisions are made separately, and not all finalists are SEVCP portfolio companies.</div>
+  </section>
 </main>
 </sc-if>
 
@@ -1855,9 +1896,10 @@ class Component extends DCLogic {
 
   // ---- URL routing (hash-based, so shared links work when opened cold) ----
   static PAGE_ROUTES = {home:'/', startups:'/portfolio', about:'/about', 'pitch-competition':'/pitch', insights:'/blog', programs:'/programs', partners:'/partners', faq:'/faq', 'founder-resources':'/founder-resources', 'investor-resources':'/investor-resources', reports:'/reports'};
-  static PAGE_TITLES = {home:'SEVCP — South East Venture Capital Program', startups:'Portfolio — SEVCP', about:'About — SEVCP', 'pitch-competition':'Pitch Competition — SEVCP', insights:'Blog — SEVCP', programs:'Programs — SEVCP', partners:'Partner with SEVCP', faq:'FAQ — SEVCP', 'founder-resources':'Founder Resources — SEVCP', 'investor-resources':'Investor Resources — SEVCP', reports:'Reports & Research — SEVCP', academy:'Founder School — SEVCP', event:'Events — SEVCP', profile:'Portfolio — SEVCP'};
+  static PAGE_TITLES = {home:'SEVCP — South East Venture Capital Program', startups:'Portfolio — SEVCP', about:'About — SEVCP', 'pitch-competition':'Pitch Competition — SEVCP', insights:'Blog — SEVCP', programs:'Programs — SEVCP', partners:'Partner with SEVCP', faq:'FAQ — SEVCP', 'founder-resources':'Founder Resources — SEVCP', 'investor-resources':'Investor Resources — SEVCP', reports:'Reports & Research — SEVCP', academy:'Founder School — SEVCP', event:'Events — SEVCP', profile:'Portfolio — SEVCP', finalists:'Top 50 Finalists — SEVCP Pitch Competition'};
 
   stateToRoute(s){
+    if (s.page === 'finalists') return '/pitch/finalists';
     if (s.page === 'profile') return '/company/' + (s.slug || '');
     if (s.page === 'event') return '/events/' + (s.eventSlug || '');
     if (s.page === 'academy'){ const t = s.academyTab === 'Templates' ? '/templates' : s.academyTab === 'Events' ? '/events' : ''; return '/founder-school' + t; }
@@ -1878,6 +1920,7 @@ class Component extends DCLogic {
     if (!pathPart || pathPart === 'index.html') return {page:'home'};
     const segs = pathPart.split('/');
     const head = segs[0];
+    if (head === 'pitch' && segs[1] === 'finalists') return {page:'finalists'};
     if (head === 'company') return {page:'profile', slug: decodeURIComponent(segs[1] || '')};
     if (head === 'events') return {page:'event', eventSlug: decodeURIComponent(segs[1] || '')};
     if (head === 'founder-school'){ const tab = segs[1] === 'templates' ? 'Templates' : segs[1] === 'events' ? 'Events' : 'Lessons'; return {page:'academy', academyTab: tab}; }
@@ -2008,6 +2051,11 @@ class Component extends DCLogic {
     const D = s.data;
     const CO = D ? D.CO : [];
     const STATIC = D ? D.STATIC : {};
+    // Finalists: year-keyed so future editions appear as tabs.
+    const fYears = D ? (D.FINALIST_YEARS || ['2026']) : ['2026'];
+    const fYear = s.finalistYear || fYears[fYears.length - 1];
+    const fExtra = D ? (D.FINALISTS_EXTRA[fYear] || []) : [];
+    const fFundedYr = CO.filter(c => c.cohort === fYear);
     const REASONS = D ? D.REASONS : [];
     const blank = {name:'', tagline:'', mark:'', tint:'#237922', sector:'', state:'', program:'', cohort:'', about:'', logo:'', snapshot:[], slot:'co-empty', photoNote:'Company photo'};
     const co = CO.find(c => c.slug === s.slug) || CO[0] || blank;
@@ -2080,6 +2128,27 @@ class Component extends DCLogic {
       isAboutPage: s.page === 'about',
       isPitchPage: s.page === 'pitch-competition',
       goPitch: () => this.nav('pitch-competition'),
+      isFinalistsPage: s.page === 'finalists',
+      goFinalists: () => this.nav('finalists'),
+      finalistYearLabel: fYear,
+      finalistCount: String(fFundedYr.length + fExtra.length),
+      showFinalistTabs: fYears.length > 1,
+      finalistYears: fYears.map(y => ({
+        label: y, active: y === fYear,
+        bg: y === fYear ? '#CAFC44' : 'transparent',
+        fg: y === fYear ? '#1C3F39' : '#C9D6D2',
+        bd: y === fYear ? '#CAFC44' : '#4B6F68',
+        pick: () => this.setState({finalistYear: y})
+      })),
+      finalists: fFundedYr.map(c => ({
+          name: c.name, sector: c.sector, blurb: c.tagline, website: c.website,
+          hasSite: !!c.website, siteLabel: (c.website||'').replace(/^https?:\/\//,'').replace(/\/$/,''),
+          isPortfolio: true, open: () => this.open(c.slug)
+        })).concat(fExtra.map(f => ({
+          name: f.name, sector: f.sector, blurb: f.blurb, website: f.website,
+          hasSite: !!f.website, siteLabel: (f.website||'').replace(/^https?:\/\//,'').replace(/\/$/,''),
+          isPortfolio: false, open: null
+        }))).sort((a,b) => a.name.localeCompare(b.name)),
       resourcesOpen: s.menu === 'resources',
       resourcesColor: s.menu === 'resources' ? '#237922' : '#4A4A40',
       toggleResources: () => this.toggleMenu('resources'),

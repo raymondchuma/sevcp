@@ -119,6 +119,43 @@ CO.forEach((c,i) => {
   c.website = WEBSITES[c.slug] || '';
 });
 
+// Pitch Competition finalists, keyed by year so future editions slot in as new tabs.
+// Each year's top 50 = the funded portfolio companies in CO with that cohort +
+// the non-funded finalists below. These are NOT portfolio companies — they reached
+// the final round. Blurbs distilled to one line from each startup's overview.
+// To add a year: append it to FINALIST_YEARS, add a FINALISTS_EXTRA[year] array,
+// and tag that year's funded companies with the matching `cohort`.
+export const FINALIST_YEARS = ['2026'];
+export const FINALISTS_EXTRA = {
+  '2026': [
+  {name:'Ije Rides', track:'Accelerator', state:'Anambra', sector:'Commerce & Logistics', website:'https://www.ijerides.com', blurb:'Multimodal mobility platform digitising road and water transport across the South East.'},
+  {name:'Solala Energy', track:'Incubator', state:'Enugu', sector:'Clean Energy', website:'https://solalasolar.com', blurb:'Remote, data-driven solar site assessment so installers can quote rooftops from anywhere.'},
+  {name:'CAMS', track:'Incubator', state:'Abia', sector:'FinTech & Financial Inclusion', website:'https://cams.credit', blurb:'Credit infrastructure connecting verified borrowers to licensed lenders with payroll-automated repayment.'},
+  {name:'Scaloo', track:'Accelerator', state:'Enugu', sector:'EdTech & Skills Development', website:'https://usescaloo.com', blurb:'A performance-based network of local human advocates that drives adoption through peer recommendation.'},
+  {name:'Azubatech', track:'Incubator', state:'Ebonyi', sector:'FinTech & Financial Inclusion', website:'https://azubatech.com', blurb:'A POS-like tool that turns small-business records into a bankability score for accessing credit.'},
+  {name:'Izifin', track:'Accelerator', state:'Anambra', sector:'FinTech & Financial Inclusion', website:'https://www.izifin.com', blurb:'Embedded financing that lets hospitals offer patients instant care financing at the point of care.'},
+  {name:'JUMPA', track:'Incubator', state:'Abia', sector:'FinTech & Financial Inclusion', website:'https://www.jumpa.xyz', blurb:'Spend stablecoins like cash — cross-border payments, virtual USD accounts and on/off-ramps.'},
+  {name:'Prepmewell', track:'Incubator', state:'Abia', sector:'EdTech & Skills Development', website:'https://www.prepmewell.com', blurb:'An EdTech ecosystem for exam prep and language learning, now scaling AI-driven JAMB prep.'},
+  {name:'OneGrid Energies', track:'Accelerator', state:'Anambra', sector:'Clean Energy', website:'https://www.onegridenergies.com', blurb:'Turns waste plastic and e-waste into low-cost solar lanterns charged at community stations.'},
+  {name:'VoteNaija', track:'Accelerator', state:'Imo', sector:'SaaS & Digital Platforms', website:'https://votenaija.ng', blurb:'A monetised digital voting platform for transparent paid contests with instant payouts.'},
+  {name:'Kredo', track:'Incubator', state:'Imo', sector:'SaaS & Digital Platforms', website:'https://kredohq.com', blurb:'A verified work-identity platform giving African freelancers client-confirmed proof of their gigs.'},
+  {name:'Kitovu Technology Company', track:'Accelerator', state:'Abia', sector:'AgriTech & Food Systems', website:'https://www.kitovu.com.ng', blurb:'Agri-tech infrastructure giving smallholder farmers advisory, storage financing and market access.'},
+  {name:'NotedMark AI', track:'Accelerator', state:'Enugu', sector:'SaaS & Digital Platforms', website:'https://www.notedmark.com', blurb:'Data infrastructure for physical AI — collecting and labelling real-world data for vision and robotics.'},
+  {name:'llava', track:'Incubator', state:'Enugu', sector:'SaaS & Digital Platforms', website:'', blurb:'An AI legal associate that automates document drafting and repetitive legal work.'},
+  {name:'AgriPulse AI', track:'Accelerator', state:'Abia', sector:'AgriTech & Food Systems', website:'https://www.agripulseai.com', blurb:'AI agricultural intelligence giving smallholder farmers localised crop, health and pricing insights.'},
+  {name:'Trashverse Recycling Technology', track:'Incubator', state:'Abia', sector:'SaaS & Digital Platforms', website:'https://trashverse.ng', blurb:'An incentive-driven platform that rewards households for recyclable waste and links them to collectors.'},
+  {name:'Atuzor', track:'Accelerator', state:'Anambra', sector:'SaaS & Digital Platforms', website:'https://www.atuzor.com', blurb:'Compliance infrastructure for African businesses.'},
+  {name:'Inspectra', track:'Incubator', state:'Enugu', sector:'SaaS & Digital Platforms', website:'https://www.inspectraweb.com', blurb:'A proptech platform connecting property seekers to trusted, verified real-estate professionals.'},
+  {name:'Fitness Space', track:'Accelerator', state:'Enugu', sector:'Health Tech', website:'https://getfitness.space', blurb:'A weight-loss app with an AI nutrition coach suggesting culturally appropriate meals.'},
+  {name:'Orbyt', track:'Incubator', state:'Enugu', sector:'SaaS & Digital Platforms', website:'https://orbyt-social.vercel.app', blurb:'A social event operating system for campuses — hosting, ticketing and AI-ranked discovery.'},
+  {name:'Gethelpa', track:'Accelerator', state:'Abia', sector:'Health Tech', website:'https://gethelpa.com', blurb:'A CareTech platform connecting households with verified, trained domestic caregivers.'},
+  {name:'Whipcare', track:'Accelerator', state:'Anambra', sector:'SaaS & Digital Platforms', website:'https://www.whipcare.app', blurb:'The operating system for vehicle service in Africa — predictive maintenance and trusted experts.'},
+  {name:'Mionia Technologies', track:'Accelerator', state:'Enugu', sector:'Manufacturing & Industrial Technology', website:'https://www.mionia.com', blurb:'Climate-hardened energy hardware and software building resilient power infrastructure for Africa.'},
+  {name:'Healthdocx', track:'Accelerator', state:'Enugu', sector:'Health Tech', website:'https://www.healthdocx.org', blurb:'Consolidates fragmented paper and EHR health records into structured, interoperable data.'},
+  {name:'Y-Queue', track:'Accelerator', state:'Enugu', sector:'Commerce & Logistics', website:'https://yqueue.app', blurb:'One platform for restaurants to manage orders, payments and delivery across online and offline channels.'}
+  ]
+};
+
 export const REASONS = ['Investment','Partnership','Become a Customer','Corporate Opportunity','Distribution','Media','Mentorship / Advisory','Other'];
 
 export const STATIC = {

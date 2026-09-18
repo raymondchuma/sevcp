@@ -101,6 +101,10 @@
       "destination": "/company/keke-ride.html"
     },
     {
+      "source": "/pitch/finalists",
+      "destination": "/pitch/finalists.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

@@ -64,4 +64,21 @@ for c in data:
 
     img.save(f"og/{c['slug']}.jpg", quality=82, optimize=True)
 
-print(f"Wrote {len(data)} og/*.jpg cards")
+# Summary card for the finalists page (og/finalists.jpg)
+img = Image.new('RGB', (W, H), BG)
+d = ImageDraw.Draw(img)
+seg = W // 5
+for i, col in enumerate(BARS):
+    d.rectangle([i*seg, 0, (i+1)*seg, 12], fill=col)
+d.text((PAD, 104), 'SEVCP PITCH COMPETITION', font=font(28), fill=LIME)
+d.text((PAD, 186), 'The 2026 Finalists', font=font(86), fill=CREAM, stroke_width=1, stroke_fill=CREAM)
+tf = font(33)
+for i, ln in enumerate(['Selected from 1,086 applications across the', 'five states and the diaspora.']):
+    d.text((PAD, 312 + i*46), ln, font=tf, fill=MUTE)
+bf = font(26)
+d.text((PAD, H - 72), 'SOUTH EAST NIGERIA  ·  2026', font=bf, fill=FOOT)
+dom = 'sevcp.sedc.gov.ng/pitch/finalists'
+d.text((W - PAD - d.textlength(dom, font=bf), H - 72), dom, font=bf, fill=FOOT)
+img.save('og/finalists.jpg', quality=82, optimize=True)
+
+print(f"Wrote {len(data)} og/*.jpg cards + og/finalists.jpg")
