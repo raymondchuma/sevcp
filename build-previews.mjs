@@ -91,7 +91,8 @@ fs.writeFileSync('pitch/finalists.html', head + fBlock + tail);
 // (cleanUrls is intentionally NOT used: it disables the catch-all fallback.)
 const rewrites = CO.map(c => ({ source: `/company/${c.slug}`, destination: `/company/${c.slug}.html` }));
 rewrites.push({ source: '/pitch/finalists', destination: '/pitch/finalists.html' });
-rewrites.push({ source: '/(.*)', destination: '/index.html' });
+// SPA catch-all — but leave /api/* to the serverless functions.
+rewrites.push({ source: '/((?!api/).*)', destination: '/index.html' });
 fs.writeFileSync('vercel.json', JSON.stringify({ rewrites }, null, 2) + '\n');
 
 console.log(`Wrote ${CO.length} company/*.html + pitch/finalists.html + og-data.json + vercel.json (${rewrites.length} rewrites)`);

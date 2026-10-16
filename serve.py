@@ -5,14 +5,46 @@ links open cold. Real files (/img/..., /support.js, /sevcp-data.js) are served
 normally. Usage:
     python3 serve.py [port] [directory]
 """
+import json
 import os
 import sys
+import urllib.request
+from urllib.parse import quote
 from functools import partial
 from urllib.parse import urlparse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 
+# Mirrors api/blog.js (the Vercel function) so /api/blog works locally.
+SANITY_URL = "https://vm3u10aa.apicdn.sanity.io/v2024-01-01/data/query/production?query="
+BLOG_QUERY = """*[_type == "blogPost" && defined(slug.current) && !(_id in path("drafts.**"))]
+  | order(publishedAt desc) {
+    title, "slug": slug.current, intro, publishedAt,
+    "image": mainImage.asset->url,
+    "author": author->name,
+    "categories": categories[]->title,
+    "words": length(string::split(pt::text(body), " ")),
+    body[]{..., _type == "image" => {"url": asset->url}}
+  }"""
+
+
 class Handler(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if urlparse(self.path).path == "/api/blog":
+            try:
+                with urllib.request.urlopen(SANITY_URL + quote(BLOG_QUERY), timeout=15) as r:
+                    body = json.dumps({"posts": json.load(r).get("result") or []}).encode()
+                code = 200
+            except Exception as e:
+                body, code = json.dumps({"posts": [], "error": str(e)}).encode(), 502
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        super().do_GET()
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.send_header("Pragma", "no-cache")

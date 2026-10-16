@@ -408,6 +408,7 @@
     </div>
   </section>
 
+  <sc-if value="{{ homeHasPosts }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:40px">
       <div>
@@ -418,7 +419,7 @@
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
       <sc-for list="{{ insights }}" as="i" hint-placeholder-count="3">
-        <div style="cursor:pointer" style-hover="opacity:.9">
+        <div onClick="{{ i.open }}" style="cursor:pointer" style-hover="opacity:.9">
           <div style="position:relative;height:250px;border-radius:22px;overflow:hidden">
             <image-slot id="{{ i.slot }}" src="{{ i.photo }}" shape="rect" placeholder="{{ i.imageNote }}"></image-slot>
           </div>
@@ -429,6 +430,7 @@
       </sc-for>
     </div>
   </section>
+  </sc-if>
 
   <section style="padding:104px 32px 0">
     <div style="max-width:1360px;margin:0 auto;background:#CAFC44;border-radius:28px;padding:80px 56px;text-align:center">
@@ -1132,11 +1134,18 @@
     </div>
   </section>
 
+  <sc-if value="{{ blogLoading }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:32px 32px 0"><div style="max-width:1360px;margin:0 auto;padding:60px 0;text-align:center;font-size:15px;color:#A3A398">Loading articles…</div></section>
+  </sc-if>
+  <sc-if value="{{ blogEmpty }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:32px 32px 0"><div style="max-width:1360px;margin:0 auto;padding:60px 0;text-align:center;font-size:15px;color:#A3A398">No articles yet — check back soon.</div></section>
+  </sc-if>
+  <sc-if value="{{ blogHasPosts }}" hint-placeholder-val="{{ false }}">
   <section style="padding:32px 32px 0">
-    <div style="max-width:1360px;margin:0 auto;background:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">
+    <div onClick="{{ blogFeature.open }}" style="max-width:1360px;margin:0 auto;background:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));cursor:pointer">
       <div style="padding:56px 46px;display:flex;flex-direction:column">
         <div style="display:flex;gap:14px;align-items:center;margin-bottom:22px;flex-wrap:wrap">
-          <div style="padding:7px 14px;border-radius:100px;background:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ blogFeature.cat }}</div>
+          <div style="padding:7px 14px;border-radius:100px;background:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ blogFeature.catLabel }}</div>
           <div style="font-size:13px;color:#77776B">{{ blogFeature.date }} · {{ blogFeature.read }} read</div>
         </div>
         <h2 style="font-size:clamp(27px,2.9vw,40px);line-height:1.07;letter-spacing:-.03em;font-weight:500;margin:0 0 18px;max-width:24ch;text-wrap:balance">{{ blogFeature.title }}</h2>
@@ -1151,19 +1160,21 @@
       </div>
     </div>
   </section>
+  </sc-if>
 
+  <sc-if value="{{ blogHasMore }}" hint-placeholder-val="{{ false }}">
   <section style="padding:32px 32px 0">
     <div style="max-width:1360px;margin:0 auto">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#A3A398;margin-bottom:20px">{{ blogCount }} articles</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px">
         <sc-for list="{{ blogRest }}" as="p" hint-placeholder-count="6">
-          <div style="background:#FFFFFF;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border:1px solid #EDEDE5" style-hover="border-color:#35352B">
+          <div onClick="{{ p.open }}" style="background:#FFFFFF;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border:1px solid #EDEDE5" style-hover="border-color:#35352B">
             <div style="height:210px;position:relative">
               <img src="{{ p.photo }}" alt="{{ p.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
             </div>
             <div style="padding:26px 26px 30px;display:flex;flex-direction:column;flex:1">
               <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ p.cat }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ p.catLabel }}</div>
                 <div style="font-size:12.5px;color:#A3A398">{{ p.date }} · {{ p.read }}</div>
               </div>
               <h3 style="font-size:20px;font-weight:500;letter-spacing:-.025em;line-height:1.2;margin:0 0 12px;text-wrap:balance">{{ p.title }}</h3>
@@ -1175,6 +1186,7 @@
       </div>
     </div>
   </section>
+  </sc-if>
 
   <section style="padding:64px 32px 90px">
     <div style="max-width:1360px;margin:0 auto;background:#1C3F39;color:#FCFFEE;border-radius:28px;padding:66px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px;align-items:center">
@@ -1189,6 +1201,77 @@
     </div>
   </section>
 
+</main>
+</sc-if>
+
+<sc-if value="{{ isPostPage }}" hint-placeholder-val="{{ false }}">
+<main style="flex:1">
+  <section style="padding:0 32px">
+    <div style="max-width:1360px;margin:0 auto">
+      <div onClick="{{ backToBlog }}" style="display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:#77776B;cursor:pointer;margin-bottom:22px" style-hover="color:#237922">← SEVCP Blog</div>
+      <sc-if value="{{ blogLoading }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:80px 0;text-align:center;font-size:15px;color:#A3A398">Loading article…</div>
+      </sc-if>
+      <sc-if value="{{ postMissing }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#F9F9F9;border-radius:28px;padding:66px 52px;text-align:center">
+          <h1 style="font-size:clamp(28px,3vw,40px);letter-spacing:-.03em;font-weight:500;margin:0 0 14px">Article not found.</h1>
+          <div onClick="{{ backToBlog }}" style="display:inline-block;margin-top:12px;padding:14px 26px;background:#1C3F39;color:#FCFFEE;font-weight:500;font-size:15px;border-radius:100px;cursor:pointer">Back to the blog</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ post.title }}" hint-placeholder-val="{{ false }}">
+      <div class="post-hero" style="background:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">
+        <div style="padding:56px 46px;display:flex;flex-direction:column">
+          <div style="display:flex;gap:14px;align-items:center;margin-bottom:24px;flex-wrap:wrap">
+            <div style="padding:7px 14px;border-radius:100px;background:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ post.catLabel }}</div>
+            <div style="font-size:13px;color:#77776B">{{ post.date }} · {{ post.read }} read</div>
+          </div>
+          <h1 style="font-size:clamp(32px,3.6vw,50px);line-height:1.05;letter-spacing:-.035em;font-weight:500;margin:0 0 20px;max-width:22ch;text-wrap:balance">{{ post.title }}</h1>
+          <p style="font-size:18.5px;line-height:1.6;color:#5D5D52;margin:0 0 30px;max-width:52ch;text-wrap:pretty">{{ post.excerpt }}</p>
+          <div style="margin-top:auto;font-size:14.5px;color:#35352B">{{ post.author }}</div>
+        </div>
+        <div style="position:relative;min-height:360px;background:#F4F4EE">
+          <img src="{{ post.photo }}" alt="{{ post.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </div>
+      <article class="post-body" style="max-width:720px;margin:0 auto;padding:64px 0 24px;font-size:18px;line-height:1.7;color:#35352B">
+        <sc-for list="{{ postBlocks }}" as="b" hint-placeholder-count="6">
+          <sc-if value="{{ b.isH2 }}" hint-placeholder-val="{{ false }}"><h2 style="font-size:clamp(24px,2.4vw,30px);line-height:1.15;letter-spacing:-.03em;font-weight:500;margin:44px 0 14px;color:#1C3F39"><sc-for list="{{ b.spans }}" as="sp"><sc-if value="{{ sp.plain }}"><span style="font-weight:{{ sp.fw }};font-style:{{ sp.fs }};text-decoration:{{ sp.td }}">{{ sp.text }}</span></sc-if><sc-if value="{{ sp.isLink }}"><a href="{{ sp.href }}" target="{{ sp.ext }}" rel="noopener" style="color:#237922;text-decoration:underline">{{ sp.text }}</a></sc-if></sc-for></h2></sc-if>
+          <sc-if value="{{ b.isH3 }}" hint-placeholder-val="{{ false }}"><h3 style="font-size:21px;line-height:1.25;letter-spacing:-.02em;font-weight:500;margin:32px 0 10px;color:#1C3F39"><sc-for list="{{ b.spans }}" as="sp"><sc-if value="{{ sp.plain }}"><span style="font-weight:{{ sp.fw }};font-style:{{ sp.fs }};text-decoration:{{ sp.td }}">{{ sp.text }}</span></sc-if><sc-if value="{{ sp.isLink }}"><a href="{{ sp.href }}" target="{{ sp.ext }}" rel="noopener" style="color:#237922;text-decoration:underline">{{ sp.text }}</a></sc-if></sc-for></h3></sc-if>
+          <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ false }}"><p style="margin:0 0 18px;text-wrap:pretty"><sc-for list="{{ b.spans }}" as="sp"><sc-if value="{{ sp.plain }}"><span style="font-weight:{{ sp.fw }};font-style:{{ sp.fs }};text-decoration:{{ sp.td }}">{{ sp.text }}</span></sc-if><sc-if value="{{ sp.isLink }}"><a href="{{ sp.href }}" target="{{ sp.ext }}" rel="noopener" style="color:#237922;text-decoration:underline">{{ sp.text }}</a></sc-if></sc-for></p></sc-if>
+          <sc-if value="{{ b.isQuote }}" hint-placeholder-val="{{ false }}"><blockquote style="margin:24px 0;padding:4px 0 4px 22px;border-left:3px solid #CAFC44;font-size:20px;color:#1C3F39"><sc-for list="{{ b.spans }}" as="sp"><span style="font-weight:{{ sp.fw }};font-style:{{ sp.fs }}">{{ sp.text }}</span></sc-for></blockquote></sc-if>
+          <sc-if value="{{ b.isLi }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:12px;margin:0 0 10px;padding-left:{{ b.indent }}"><div style="flex-shrink:0;min-width:16px;color:#237922;font-weight:500">{{ b.marker }}</div><div><sc-for list="{{ b.spans }}" as="sp"><sc-if value="{{ sp.plain }}"><span style="font-weight:{{ sp.fw }};font-style:{{ sp.fs }};text-decoration:{{ sp.td }}">{{ sp.text }}</span></sc-if><sc-if value="{{ sp.isLink }}"><a href="{{ sp.href }}" target="{{ sp.ext }}" rel="noopener" style="color:#237922;text-decoration:underline">{{ sp.text }}</a></sc-if></sc-for></div></div></sc-if>
+          <sc-if value="{{ b.isImg }}" hint-placeholder-val="{{ false }}"><img src="{{ b.url }}" alt="{{ b.alt }}" style="width:100%;border-radius:20px;margin:24px 0;display:block"></sc-if>
+        </sc-for>
+        <div style="margin-top:44px;padding-top:22px;border-top:1px solid #E4E4DC;font-size:14px;color:#77776B">Also published on <a href="{{ postSource }}" target="_blank" rel="noopener" style="color:#237922">sedc.gov.ng</a></div>
+      </article>
+      </sc-if>
+    </div>
+  </section>
+
+  <sc-if value="{{ postHasMore }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:40px 32px 90px">
+    <div style="max-width:1360px;margin:0 auto">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#A3A398;margin-bottom:20px">More from the blog</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px">
+        <sc-for list="{{ postMore }}" as="p" hint-placeholder-count="2">
+          <div onClick="{{ p.open }}" style="background:#FFFFFF;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border:1px solid #EDEDE5" style-hover="border-color:#35352B">
+            <div style="height:210px;position:relative;background:#F4F4EE">
+              <img src="{{ p.photo }}" alt="{{ p.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div style="padding:26px 26px 30px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#237922">{{ p.catLabel }}</div>
+                <div style="font-size:12.5px;color:#A3A398">{{ p.date }} · {{ p.read }}</div>
+              </div>
+              <h3 style="font-size:20px;font-weight:500;letter-spacing:-.025em;line-height:1.2;margin:0 0 12px;text-wrap:balance">{{ p.title }}</h3>
+              <p style="font-size:15px;line-height:1.6;color:#5D5D52;margin:0;text-wrap:pretty">{{ p.excerpt }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+  </sc-if>
 </main>
 </sc-if>
 
@@ -1826,19 +1909,49 @@ function fallbackLogo(c){
 }
 
 class Component extends DCLogic {
-  state = {hero:0, menu:null, mnav:false, tIndex:0, fOpen:false, fSel:null, introTo:'', finalistTrack:'All', page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
+  state = {blogPosts:null, postSlug:'', hero:0, menu:null, mnav:false, tIndex:0, fOpen:false, fSel:null, introTo:'', finalistTrack:'All', page:'home', slug:'aku-pay', q:'', program:'All', sector:'All', region:'All', stage:'All', modal:false, sent:false, reason:'Investment', consent:false, data:null, apply:false, applySent:false, applyState:'Enugu', applyStage:'Early revenue', partner:false, partnerSent:false, partnerType:'Financing Partner', blogCat:'All', academyTab:'Lessons', eventView:'List', calY:2026, calM:8, eventSlug:'pricing-distrust'};
 
-  BLOG = [
-    {cat:'News', date:'12 Aug 2026', read:'4 min', photo:'img/DON01251.jpg', title:'SEVCP closes its first investment cycle with 25 companies backed', excerpt:'The inaugural Pitch Competition ended in Enugu with equity investment awarded across the Accelerator and Incubation tracks.', author:'SEVCP Team'},
-    {cat:'Founder Stories', date:'6 Aug 2026', read:'7 min', photo:'img/DON01254.jpg', title:'Aba, rebuilt: how one founder turned 214 workshops into a production line', excerpt:'Ariaria has made clothes for four decades. Turning that cluster into something an institutional buyer can order from took software, not sewing machines.', author:'Chidera Okeke'},
-    {cat:'Insights', date:'29 Jul 2026', read:'3 min', photo:'img/DON07388.jpg', title:'What we look for before we back a company', excerpt:'The four things that move an application from interesting to investable \u2014 and the one that stops most conversations.', author:'SEVCP Investment Team'},
-    {cat:'Research', date:'21 Jul 2026', read:'9 min', photo:'img/DON01356.jpg', title:'What 1,000 applications tell us about where companies are actually being built', excerpt:'Sector, stage and state-level analysis from the first Pitch Competition — published in full, with the raw distribution.', author:'SEVCP Research'},
-    {cat:'Founder Stories', date:'14 Jul 2026', read:'6 min', photo:'img/DON00745.jpg', title:'"We had customers before we had a company"', excerpt:'A health founder in Owerri on selling a service for eighteen months before incorporating — and what that cost her.', author:'Ijeoma Nwosu'},
-    {cat:'Ecosystem', date:'3 Jul 2026', read:'5 min', photo:'img/DON00592.jpg', title:'Five hubs, one pipeline: how the region\u2019s innovation spaces feed the fund', excerpt:'Delivery partners across Enugu, Aba, Onitsha, Abakaliki and Owerri now share a single referral route into SEVCP.', author:'SEVCP Team'},
-    {cat:'News', date:'24 Jun 2026', read:'2 min', photo:'img/DON01348.jpg', title:'Investment Ceremony: the full list of companies and tracks', excerpt:'Everything awarded on 26 May, by track, sector and state.', author:'SEVCP Team'},
-    {cat:'Research', date:'11 Jun 2026', read:'8 min', photo:'img/DON00836.jpg', title:'The missing middle: capital gaps between grant and Series A', excerpt:'Companies in the region can raise \u20a65m or $2m. The space in between is where most of them die.', author:'SEVCP Research'},
-    {cat:'Insights', date:'2 Jun 2026', read:'4 min', photo:'img/DON01280.jpg', title:'How the SEVCP investment committee decides', excerpt:'The scoring model, the questions we ask, and the three reasons most companies are declined.', author:'SEVCP Investment Team'}
-  ];
+  // Blog posts come from SEDC's Sanity (via /api/blog) — see api/blog.js.
+  get BLOG(){
+    const fmt = d => d ? new Date(d).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) : '';
+    return (this.state.blogPosts || []).map(p => ({
+      slug:p.slug, title:p.title, excerpt:p.intro || '', author:p.author || 'South East Development Commission',
+      cats:p.categories || [], cat:(p.categories || [])[0] || 'News', catLabel:(p.categories || []).join(' · ') || 'News',
+      date:fmt(p.publishedAt), read:Math.max(1, Math.round((p.words || 0) / 220)) + ' min',
+      photo:p.image ? p.image + '?w=1400&auto=format' : 'img/h-DON00164.jpg', body:p.body || [],
+      open: () => this.postOpen(p.slug)
+    }));
+  }
+  postOpen(slug){ this.setState({page:'post', postSlug:slug}, () => window.scrollTo(0,0)); }
+  // Portable Text -> flat block list the template can render.
+  ptBlocks(body){
+    const local = new Set(this.BLOG.map(p => p.slug));
+    const out = []; let n = 0;
+    for (const b of body){
+      if (b._type === 'image'){ if (b.url) out.push({isImg:true, url:b.url + '?w=1400&auto=format', alt:b.alt || ''}); n = 0; continue; }
+      if (b._type !== 'block') continue;
+      const defs = {}; (b.markDefs || []).forEach(d => defs[d._key] = d);
+      const spans = (b.children || []).map(c => {
+        const m = c.marks || []; const link = m.map(k => defs[k]).find(d => d && d._type === 'link');
+        let href = link ? link.href : '';
+        const hit = href && href.match(/sedc\.gov\.ng\/articles\/([^/?#]+)/);
+        if (hit && local.has(hit[1])) href = '/blog/' + hit[1];
+        return {text:c.text, isLink:!!href, plain:!href, href:href, ext:/^https?:/.test(href) ? '_blank' : '_self',
+          fw:m.includes('strong') ? '600' : 'inherit', fs:m.includes('em') ? 'italic' : 'normal', td:m.includes('underline') ? 'underline' : 'none'};
+      });
+      if (!spans.some(x => x.text && x.text.trim())) continue;
+      const st = b.style || 'normal';
+      if (b.listItem){
+        n = b.listItem === 'number' ? n + 1 : 0;
+        out.push({isLi:true, spans, marker:b.listItem === 'number' ? n + '.' : '•', indent:((b.level || 1) - 1) * 24 + 'px'});
+        continue;
+      }
+      n = 0;
+      out.push({isH2:st === 'h2' || st === 'h1', isH3:st === 'h3' || st === 'h4', isQuote:st === 'blockquote', isP:!['h1','h2','h3','h4','blockquote'].includes(st), spans});
+    }
+    return out;
+  }
+  blogList(cat){ return cat === 'All' || !cat ? this.BLOG : this.BLOG.filter(p => p.cats.includes(cat)); }
 
   COURSES = [
     {n:'01', title:'Idea & Validation', dot:'#6ACDDD', body:'Find a problem worth solving and prove someone will pay for it before you build anything expensive.',
@@ -1916,12 +2029,13 @@ class Component extends DCLogic {
 
   componentDidMount(){
     import('./sevcp-data.js').then(m => this.setState({data:m}));
+    fetch('/api/blog').then(r => r.json()).then(d => this.setState({blogPosts:d.posts || []})).catch(() => this.setState({blogPosts:[]}));
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
     document.addEventListener('mousedown', this._away);
     if (!reduce) this._t = setInterval(() => this.setState(s => ({hero: (s.hero + 1) % 5})), 5000);
     this._lastRouteKey = 'home||';
     const initial = this.routeToState(location.pathname, location.search);
-    if (initial && initial.page !== 'home'){ this.setState(initial); this._lastRouteKey = initial.page + '|' + (initial.slug || '') + '|' + (initial.eventSlug || ''); }
+    if (initial && initial.page !== 'home'){ this.setState(initial); this._lastRouteKey = initial.page + '|' + (initial.slug || '') + '|' + (initial.eventSlug || initial.postSlug || ''); }
     document.title = this.routeTitle();
     this._onRoute = () => { const st = this.routeToState(location.pathname, location.search); if (st) this.setState(st); };
     window.addEventListener('popstate', this._onRoute);
@@ -1938,6 +2052,7 @@ class Component extends DCLogic {
     if (s.page === 'finalists') return '/pitch/finalists';
     if (s.page === 'profile') return '/company/' + (s.slug || '');
     if (s.page === 'event') return '/events/' + (s.eventSlug || '');
+    if (s.page === 'post') return '/blog/' + (s.postSlug || '');
     if (s.page === 'academy'){ const t = s.academyTab === 'Templates' ? '/templates' : s.academyTab === 'Events' ? '/events' : ''; return '/founder-school' + t; }
     let path = Component.PAGE_ROUTES[s.page] || '/';
     if (s.page === 'startups'){
@@ -1959,6 +2074,7 @@ class Component extends DCLogic {
     if (head === 'pitch' && segs[1] === 'finalists') return {page:'finalists'};
     if (head === 'company') return {page:'profile', slug: decodeURIComponent(segs[1] || '')};
     if (head === 'events') return {page:'event', eventSlug: decodeURIComponent(segs[1] || '')};
+    if (head === 'blog' && segs[1]) return {page:'post', postSlug: decodeURIComponent(segs[1])};
     if (head === 'founder-school'){ const tab = segs[1] === 'templates' ? 'Templates' : segs[1] === 'events' ? 'Events' : 'Lessons'; return {page:'academy', academyTab: tab}; }
     const rev = {portfolio:'startups', about:'about', pitch:'pitch-competition', blog:'insights', programs:'programs', partners:'partners', faq:'faq', 'founder-resources':'founder-resources', 'investor-resources':'investor-resources', reports:'reports'};
     const page = rev[head];
@@ -1977,6 +2093,7 @@ class Component extends DCLogic {
   routeTitle(){
     const s = this.state;
     if (s.page === 'profile' && s.data && s.data.CO){ const co = s.data.CO.find(c => c.slug === s.slug); if (co) return co.name + ' — SEVCP Portfolio'; }
+    if (s.page === 'post'){ const p = this.BLOG.find(x => x.slug === s.postSlug); if (p) return p.title + ' — SEVCP Blog'; }
     if (s.page === 'event'){ const e = this.EVENTS.find(x => x.slug === s.eventSlug); if (e) return e.title + ' — SEVCP'; }
     return Component.PAGE_TITLES[s.page] || 'SEVCP — South East Venture Capital Program';
   }
@@ -1986,7 +2103,7 @@ class Component extends DCLogic {
   syncRoute(){
     const target = this.stateToRoute(this.state);
     const current = location.pathname + location.search;
-    const key = this.state.page + '|' + (this.state.slug || '') + '|' + (this.state.eventSlug || '');
+    const key = this.state.page + '|' + (this.state.slug || '') + '|' + (this.state.eventSlug || this.state.postSlug || '');
     if (target !== current){
       const pageChanged = key !== this._lastRouteKey;
       if (pageChanged) history.pushState(null, '', target); else history.replaceState(null, '', target);
@@ -2129,10 +2246,22 @@ class Component extends DCLogic {
       isBlogPage: s.page === 'insights',
       isAcademyPage: s.page === 'academy',
       goAcademy: () => this.nav('academy'),
-      blogCats: ['All','News','Founder Stories','Insights','Research','Ecosystem'].map(c => this.chip(s.blogCat === c, () => this.setState({blogCat:c}), c)),
-      blogFeature: (s.blogCat === 'All' ? this.BLOG : this.BLOG.filter(p => p.cat === s.blogCat))[0] || {cat:'',date:'',read:'',photo:'',title:'',excerpt:'',author:''},
-      blogRest: (s.blogCat === 'All' ? this.BLOG : this.BLOG.filter(p => p.cat === s.blogCat)).slice(1),
-      blogCount: String((s.blogCat === 'All' ? this.BLOG : this.BLOG.filter(p => p.cat === s.blogCat)).length),
+      blogCats: ['All', ...new Set(this.BLOG.flatMap(p => p.cats))].map(c => this.chip(s.blogCat === c, () => this.setState({blogCat:c}), c)),
+      blogFeature: this.blogList(s.blogCat)[0] || {cat:'',date:'',read:'',photo:'',title:'',excerpt:'',author:''},
+      blogRest: this.blogList(s.blogCat).slice(1),
+      blogCount: String(this.blogList(s.blogCat).length),
+      blogLoading: s.blogPosts === null,
+      blogEmpty: s.blogPosts !== null && this.BLOG.length === 0,
+      blogHasPosts: this.BLOG.length > 0,
+      blogHasMore: this.blogList(s.blogCat).length > 1,
+      isPostPage: s.page === 'post',
+      post: this.BLOG.find(p => p.slug === s.postSlug) || {title:'', excerpt:'', catLabel:'', date:'', read:'', author:'', photo:''},
+      postBlocks: this.ptBlocks((this.BLOG.find(p => p.slug === s.postSlug) || {body:[]}).body),
+      postMissing: s.page === 'post' && s.blogPosts !== null && !this.BLOG.some(p => p.slug === s.postSlug),
+      postSource: 'https://www.sedc.gov.ng/articles/' + (s.postSlug || ''),
+      postMore: this.BLOG.filter(p => p.slug !== s.postSlug).slice(0, 3),
+      postHasMore: this.BLOG.filter(p => p.slug !== s.postSlug).length > 0,
+      backToBlog: () => this.nav('insights'),
       courses: this.COURSES.map((c, ci) => Object.assign({}, c, {
         lessons: c.items.length + ' lessons',
         mins: (c.items.length * 6 + 20) + ' min',
@@ -2285,11 +2414,8 @@ class Component extends DCLogic {
         {name:'Genesys Tech Hub',type:'Implementing Partner',color:'#6ACDDD'},
         {name:'Startup South',type:'Implementing Partner',color:'#6ACDDD'}
       ],
-      insights: [
-        {category:'Founder Story',date:'Aug 2026',slot:'insight-1',photo:'img/DON01254.jpg',title:'How Aba Loom turned 214 workshops into one production line',excerpt:'Inside the operating system rebuilding Aba\u2019s garment cluster for institutional buyers.',imageNote:'Ariaria production floor'},
-        {category:'Investment',date:'Jul 2026',slot:'insight-2',photo:'img/DON07388.jpg',title:'SEVCP backs six companies in the 2026 Accelerator cohort',excerpt:'The second cohort spans fintech, logistics, manufacturing and health.',imageNote:'Cohort announcement photo'},
-        {category:'Research',date:'Jun 2026',slot:'insight-3',photo:'img/DON01356.jpg',title:'Mapping capital flows into South East Nigeria',excerpt:'What 1,086 applications tell us about where companies are actually being built.',imageNote:'Report cover or data visual'}
-      ],
+      homeHasPosts: this.BLOG.length > 0,
+      insights: this.BLOG.slice(0,3).map((p, i) => ({...p, category:p.cat, slot:'blog-post-' + (i+1), imageNote:p.title})),
       featured: CO.filter(c => c.featured).slice(0,6).map(c => this.decorate(c)),
       programCounts: {acc: CO.filter(c => c.program === 'Accelerator').length, inc: CO.filter(c => c.program === 'Incubator').length},
       results: results,
