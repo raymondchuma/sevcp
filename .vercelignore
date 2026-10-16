@@ -1,3 +1,0 @@
-# The Office Hours app is deployed by its own Vercel project (Root Directory: office-hours).
-# Keep its source out of the static site deployment; /office-hours/* is rewritten to that project.
-office-hours

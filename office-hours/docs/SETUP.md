@@ -9,7 +9,7 @@ Meet link, and `sendUpdates=all` so Google itself sends every invitation (no sep
 | Piece | Where |
 |---|---|
 | Next.js 15 app (App Router, TypeScript), `basePath: /office-hours` | `office-hours/` in the `sevcp` repo, deployed as its own Vercel project (`sevcp-office-hours`, Root Directory `office-hours`) |
-| Public URL | the main static site (same repo) rewrites `/office-hours/*` to that project; `.vercelignore` keeps this folder out of the static deploy |
+| Public URL | the main static site (same repo) rewrites `/office-hours/*` to that project. Don't add a root `.vercelignore` for this folder — Vercel applies it to both projects and the app build loses its source |
 | Database | Neon Postgres (`DATABASE_URL`); embedded PGlite locally when unset |
 | Calendar | Google Calendar REST API via the admin-connected account (`lib/google/live.ts`); in-memory mock for dev/tests (`lib/google/mock.ts`) |
 | Admin auth | Google sign-in, restricted to `ADMIN_EMAILS` |
