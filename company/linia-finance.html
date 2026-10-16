@@ -2529,10 +2529,10 @@ class Component extends DCLogic {
         {title:'Implementing partners', color:'#2E9BAE', items:[
           {name:'The Garage', logo:'img/partners/the-garage.webp'},
           {name:'Genesys Tech Hub', logo:'img/partners/genesys.webp'},
-          {name:'Startup South', logo:'img/partners/startup-south.webp'}]},
+          {name:'Startup South', logo:'img/partners/startup-south.webp'},
+          {name:'Ubulu Africa', logo:'img/partners/ubulu-africa.webp'}]},
         {title:'Ecosystem partners', color:'#C79A16', items:[
           {name:'Cascador', logo:'img/partners/cascador.webp'},
-          {name:'Ubulu Africa', logo:'img/partners/ubulu-africa.webp'},
           {name:'Ventures Platform', logo:'img/partners/ventures-platform.webp'}]}
       ].map(g => Object.assign(g, {items: g.items.map(p => Object.assign(p, {logoH: p.seal ? '68px' : (p.name === 'The Garage' || p.name === 'Cascador' ? '58px' : '40px')}))})),
       homeHasPosts: this.BLOG.length > 0,
