@@ -84,6 +84,9 @@
       background:radial-gradient(520px circle at var(--fx-mx,50%) var(--fx-my,50%),rgba(255,255,255,.6),transparent 62%)}
     [data-glow]:hover::before{opacity:1}
   }
+  [style*="aspect-ratio: 4 / 3"]{overflow:hidden}
+  [style*="aspect-ratio: 4 / 3"] > image-slot{position:absolute;inset:0;display:block;width:100%;height:100%}
+  @media (max-width:760px){.sevcp-logo{height:40px!important}}
   .sevcp-footer-grid{display:grid;grid-template-columns:minmax(260px,1.5fr) repeat(3,minmax(140px,1fr));gap:44px}
   @media (max-width:1024px){.sevcp-footer-grid{grid-template-columns:repeat(3,1fr)}.sevcp-footer-brand{grid-column:1/-1}}
   @media (max-width:760px){.sevcp-footer-grid{grid-template-columns:1fr 1fr!important;gap:36px 24px!important}.sevcp-footer-card{padding:44px 26px 32px!important}.sevcp-footer-bottom{flex-direction:column;align-items:flex-start!important}}
@@ -102,7 +105,8 @@
 
     /* every responsive card/section grid -> one column */
     [style*="grid-template-columns: repeat(auto-fit, minmax("],
-    [style*="grid-template-columns: repeat(auto-fill, minmax("]{grid-template-columns:1fr!important}
+    [style*="grid-template-columns: repeat(auto-fill, minmax("]{grid-template-columns:minmax(0,1fr)!important}
+    [style*="grid-template-columns: repeat(auto-fit, minmax("] > *,[style*="grid-template-columns: repeat(auto-fill, minmax("] > *{min-width:0}
 
     /* on mobile the desktop side-collage is hidden; a compact photo band shows
        inline, just above the CTAs (see .m-hero-mobile) */
@@ -177,9 +181,7 @@
 <header style="position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(14px)">
   <div class="sevcp-headbar" style="max-width:1360px;margin:0 auto;padding:14px 32px;min-height:88px;display:flex;align-items:center;gap:26px;flex-wrap:wrap">
     <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:14px;cursor:pointer;flex-shrink:0">
-      <div style="font-size:23px;font-weight:600;letter-spacing:-.03em;color:#1C3F39">SEVCP</div>
-      <div style="width:1px;height:26px;background:#E4E4DC"></div>
-      <img src="uploads/sedc-logo.png" alt="South East Development Commission" style="height:20px;width:auto">
+      <img class="sevcp-logo" src="img/sevcp-logo.svg" alt="South East Venture Capital Program" style="height:48px;width:auto;display:block">
     </div>
     <div class="sevcp-burger" onClick="{{ toggleMnav }}" style="width:46px;height:46px;border-radius:13px;background:#F4F4EE;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:19px;color:#1C3F39;line-height:1">{{ burgerIcon }}</div>
     <nav class="sevcp-desktop-nav" style="display:flex;align-items:center;gap:28px;margin-left:auto;flex-wrap:wrap">
@@ -1658,7 +1660,7 @@
   <div class="sevcp-footer-card" style="max-width:1360px;margin:0 auto;background:#35352B;color:#FCFFEE;border-radius:28px;padding:64px 56px 36px">
     <div class="sevcp-footer-grid">
       <div class="sevcp-footer-brand">
-        <div style="font-size:24px;font-weight:600;letter-spacing:-.03em;margin-bottom:16px">SEVCP</div>
+        <img src="img/sevcp-logo-white.svg" alt="South East Venture Capital Program" style="height:68px;width:auto;display:block;margin-bottom:22px">
         <div style="font-size:17px;line-height:1.55;color:#C9C9BC;max-width:34ch;margin-bottom:26px">Backing ambitious founders building the next generation of companies from South East Nigeria.</div>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E80;margin-bottom:8px">Get in touch</div>
         <a href="mailto:sevcp@sedc.gov.ng" style="font-size:15px;color:#FCFFEE;text-decoration:none;border-bottom:1px solid #6B6B5E;padding-bottom:2px" style-hover="color:#CAFC44">sevcp@sedc.gov.ng</a>
@@ -1674,7 +1676,6 @@
     </div>
     <div class="sevcp-footer-bottom" style="margin-top:52px;padding-top:24px;border-top:1px solid #4B4B3F;display:flex;justify-content:space-between;gap:18px 24px;flex-wrap:wrap;align-items:center">
       <div style="display:flex;align-items:center;gap:14px">
-        <a href="https://www.sedc.gov.ng" target="_blank" rel="noopener" style="display:flex"><img src="uploads/sedc-logo.png" alt="South East Development Commission" style="height:26px;width:auto"></a>
         <span style="font-size:12.5px;color:#9E9E90">An initiative of the <a href="https://www.sedc.gov.ng" target="_blank" rel="noopener" style="color:#D9D9CE;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#6B6B5E" style-hover="color:#CAFC44">South East Development Commission</a></span>
       </div>
       <div style="display:flex;gap:22px;font-size:12.5px;color:#9E9E90;flex-wrap:wrap;align-items:center">

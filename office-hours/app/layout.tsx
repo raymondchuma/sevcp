@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="wrap">
           <header className="top">
             {/* Plain <a>: "/" is the main SEVCP site, outside this app's basePath. */}
-            <a className="brand" href="/"><b>SEVCP</b><img src="/office-hours/sedc-logo.png" alt="South East Development Commission" /></a>
+            <a className="brand" href="/"><img className="sevcp" src="/office-hours/sevcp-logo.svg" alt="South East Venture Capital Program" /></a>
             <a className="back" href="/">← Back to sevcp.sedc.gov.ng</a>
           </header>
           {children}
