@@ -173,7 +173,7 @@
       <div onClick="{{ goDirectory }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Portfolio</div>
       <div onClick="{{ goPitch }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Pitch</div>
       <div onClick="{{ goInsights }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">SEVCP Blog</div>
-      <div onClick="{{ goAcademy }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Founder School</div>
+      <!-- Founder School hidden until it launches: <div onClick="{{ goAcademy }}" style="padding:15px 12px;font-size:17px;font-weight:500;color:#35352B;cursor:pointer;border-radius:12px" style-hover="background:#FCFFEE">Founder School</div> -->
       <div style="height:1px;background:#EFEFE8;margin:8px 4px"></div>
       <div onClick="{{ openApply }}" style="padding:15px 12px;font-size:16.5px;font-weight:600;color:#1C3F39;cursor:pointer;border-radius:100px;background:#CAFC44;text-align:center">{{ applyLabel }}</div>
       <div onClick="{{ goPartners }}" style="padding:15px 12px;font-size:16.5px;font-weight:600;color:#FCFFEE;cursor:pointer;border-radius:100px;background:#1C3F39;text-align:center;margin-top:6px">Partner with SEVCP</div>
@@ -1617,7 +1617,7 @@
         <div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E80;margin-bottom:18px">{{ col.title }}</div>
           <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4">
-            <div style="font-size:14.5px;color:#D9D9CE;margin-bottom:11px;cursor:pointer" style-hover="color:#CAFC44">{{ l }}</div>
+            <a href="{{ l.href }}" target="{{ l.target }}" rel="noopener" onClick="{{ l.go }}" style="display:block;width:fit-content;font-size:14.5px;color:#D9D9CE;margin-bottom:11px;cursor:pointer;text-decoration:none" style-hover="color:#CAFC44">{{ l.label }}</a>
           </sc-for>
         </div>
       </sc-for>
@@ -1628,9 +1628,8 @@
         <div style="font-size:12.5px;color:#9E9E90">An initiative of the South East Development Commission</div>
       </div>
       <div style="display:flex;gap:22px;font-size:12.5px;color:#9E9E90;flex-wrap:wrap">
-        <div style="cursor:pointer">Privacy</div>
-        <div style="cursor:pointer">Terms</div>
-        <div style="cursor:pointer">Accessibility</div>
+        <a href="https://www.sedc.gov.ng/privacy-policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" style-hover="color:#CAFC44">Privacy</a>
+        <a href="https://www.sedc.gov.ng/terms-of-use" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" style-hover="color:#CAFC44">Terms</a>
         <div>© 2026 South East Development Commission</div>
       </div>
     </div>
@@ -2114,6 +2113,12 @@ class Component extends DCLogic {
 
   componentDidUpdate(){ this.syncRoute(); }
 
+  // Footer links: real hrefs (crawlable, middle-click) with in-app navigation for internal pages.
+  fLink(label, page, extra){
+    const st = Object.assign({page:page}, extra || {});
+    return {label, href:this.stateToRoute(st), target:'_self', go:(e) => { if (e && (e.metaKey || e.ctrlKey || e.shiftKey)) return; if (e) e.preventDefault(); this.nav(page, extra); }};
+  }
+  xLink(label, href){ return {label, href, target:/^https?:/.test(href) ? '_blank' : '_self', go:() => {}}; }
   nav(page, extra){ this.setState(Object.assign({page:page, menu:null, mnav:false}, extra||{})); window.scrollTo(0,0); }
   toggleMenu(name){ this.setState(s => ({menu: s.menu === name ? null : name})); }
   open(slug){ this.setState({page:'profile', slug:slug, modal:false, sent:false, mnav:false}); window.scrollTo(0,0); }
@@ -2335,8 +2340,9 @@ class Component extends DCLogic {
       burgerIcon: s.mnav ? '✕' : '☰',
       toggleMnav: () => this.setState(x => ({mnav: !x.mnav, menu:null})),
       resourcesMenu: [
-        {label:'SEVCP Blog', note:'Founder stories, portfolio news and research', go: () => this.nav('insights')},
-        {label:'Founder School', note:'Company-building material, templates and guides', go: () => this.nav('academy')}
+        {label:'SEVCP Blog', note:'Founder stories, portfolio news and research', go: () => this.nav('insights')}
+        // Founder School hidden until it launches:
+        // {label:'Founder School', note:'Company-building material, templates and guides', go: () => this.nav('academy')}
       ],
       staticEyebrow: st.eyebrow, staticTitle: st.title, staticBody: st.body, staticPoints: st.points,
 
@@ -2478,9 +2484,9 @@ class Component extends DCLogic {
       submit: () => { if (s.consent) this.setState({sent:true}); },
 
       footerCols: [
-        {title:'Explore', links:['About','Pitch','Portfolio','Founder School']},
-        {title:'Ecosystem', links:['Partners','SEVCP Blog','Founder School']},
-        {title:'Connect', links:['Contact','LinkedIn','X']}
+        {title:'Explore', links:[this.fLink('About','about'), this.fLink('Pitch','pitch-competition'), this.fLink('Portfolio','startups') /* Founder School hidden until it launches: , this.fLink('Founder School','academy', {academyTab:'Lessons'}) */]},
+        {title:'Ecosystem', links:[this.fLink('Partners','partners'), this.fLink('SEVCP Blog','insights'), this.fLink('Pitch Finalists','finalists')]},
+        {title:'Connect', links:[this.xLink('Contact','mailto:sevcp@sedc.gov.ng'), this.xLink('LinkedIn','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X','https://x.com/sedcgov')]}
       ]
     };
   }
