@@ -1625,7 +1625,7 @@
         <nav aria-label="{{ col.title }}">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E80;margin-bottom:18px">{{ col.title }}</div>
           <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4">
-            <a href="{{ l.href }}" target="{{ l.target }}" rel="noopener" onClick="{{ l.go }}" style="display:block;width:fit-content;font-size:14.5px;color:#D9D9CE;margin-bottom:12px;cursor:pointer;text-decoration:none" style-hover="color:#CAFC44">{{ l.label }}</a>
+            <a href="{{ l.href }}" target="{{ l.target }}" rel="noopener" onClick="{{ l.go }}" style="display:flex;align-items:center;gap:6px;width:fit-content;font-size:14.5px;color:#D9D9CE;margin-bottom:12px;cursor:pointer;text-decoration:none" style-hover="color:#CAFC44">{{ l.label }}<sc-if value="{{ l.isExt }}" hint-placeholder-val="{{ false }}"><svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity:.55;flex-shrink:0"><path d="M3 1.5h5.5V7M8.5 1.5 1.5 8.5"/></svg></sc-if></a>
           </sc-for>
         </nav>
       </sc-for>
@@ -2127,7 +2127,7 @@ class Component extends DCLogic {
     return {label, href:this.stateToRoute(st), target:'_self', go:(e) => { if (e && (e.metaKey || e.ctrlKey || e.shiftKey)) return; if (e) e.preventDefault(); this.nav(page, extra); }};
   }
   aLink(label, fn){ return {label, href:'#', target:'_self', go:(e) => { if (e) e.preventDefault(); fn(); }}; }
-  xLink(label, href){ return {label, href, target:/^https?:/.test(href) ? '_blank' : '_self', go:() => {}}; }
+  xLink(label, href){ const ext = /^https?:/.test(href); return {label, href, isExt:ext, target:ext ? '_blank' : '_self', go:() => {}}; }
   nav(page, extra){ this.setState(Object.assign({page:page, menu:null, mnav:false}, extra||{})); window.scrollTo(0,0); }
   toggleMenu(name){ this.setState(s => ({menu: s.menu === name ? null : name})); }
   open(slug){ this.setState({page:'profile', slug:slug, modal:false, sent:false, mnav:false}); window.scrollTo(0,0); }
@@ -2496,7 +2496,7 @@ class Component extends DCLogic {
         {title:'Program', links:[this.fLink('About SEVCP','about'), this.fLink('Portfolio','startups'), this.fLink('Pitch Competition','pitch-competition'), this.fLink('2026 Finalists','finalists')]},
         // Founder School hidden until it launches: add this.fLink('Founder School','academy', {academyTab:'Lessons'}) to Program.
         {title:'Get involved', links:[this.aLink('Join the founder pipeline', () => this.setState({apply:true, applySent:false, menu:null, mnav:false})), this.aLink('Partner with us', () => this.setState({partner:true, partnerSent:false, menu:null})), this.fLink('Our partners','partners')]},
-        {title:'Updates', links:[this.fLink('Blog','insights'), this.xLink('LinkedIn ↗','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X ↗','https://x.com/SEVCP_SEDC'), this.xLink('Instagram ↗','https://www.instagram.com/sevcp_sedc/')]}
+        {title:'Updates', links:[this.fLink('Blog','insights'), this.xLink('LinkedIn','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X','https://x.com/SEVCP_SEDC'), this.xLink('Instagram','https://www.instagram.com/sevcp_sedc/')]}
       ]
     };
   }
