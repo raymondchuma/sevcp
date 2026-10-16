@@ -279,6 +279,24 @@
   </section>
 
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
+    <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0 0 44px">Capital. Capability. Connections.</h2>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">What we offer</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="border-radius:24px;overflow:hidden;background:#F9F9F9">
+          <div style="position:relative;height:260px">
+            <image-slot id="{{ p.slot }}" src="{{ p.photo }}" shape="rect" placeholder="{{ p.photoNote }}"></image-slot>
+          </div>
+          <div style="padding:28px 28px 34px">
+            <div style="font-size:26px;font-weight:500;letter-spacing:-.03em;margin-bottom:12px">{{ p.title }}</div>
+            <div style="font-size:15.5px;line-height:1.6;color:#5D5D52">{{ p.body }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
     <div style="background:#FCFFEE;border-radius:28px;padding:64px 56px">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:end;margin-bottom:52px">
         <div>
@@ -303,16 +321,41 @@
   </section>
 
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
-    <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0 0 44px">Capital. Capability. Connections.</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
-        <div style="border-radius:24px;overflow:hidden;background:#F9F9F9">
-          <div style="position:relative;height:260px">
+    <div style="background:#1C3F39;color:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
+      <div style="padding:64px 56px">
+        <h2 style="font-size:clamp(30px,3.4vw,46px);line-height:1.05;letter-spacing:-.035em;font-weight:500;margin:0 0 20px;max-width:18ch;text-wrap:balance">The South East Pitch Competition.</h2>
+        <p style="font-size:18px;line-height:1.6;color:#C6D4CE;margin:0 0 32px;max-width:52ch;text-wrap:pretty">Our flagship startup discovery and investment programme. The inaugural edition drew 1,086 founder applications from across the five states and the diaspora — selected companies receive investment and a place in the Accelerator or Incubator.</p>
+        <div onClick="{{ goPitch }}" style="display:inline-block;padding:16px 30px;background:#CAFC44;color:#1C3F39;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer" style-hover="background:#FCFFEE">Explore the Pitch Competition →</div>
+      </div>
+      <div style="position:relative;min-height:340px">
+        <img src="img/h-DON00164.jpg" alt="Founder pitching at the South East Pitch Competition" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:44px">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">Programs</div>
+        <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0;max-width:20ch">Support designed around where your company is.</h2>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px">
+      <sc-for list="{{ programs }}" as="p" hint-placeholder-count="3">
+        <div style="border-radius:24px;overflow:hidden;background:{{ p.bg }};color:{{ p.fg }};display:flex;flex-direction:column">
+          <div style="position:relative;height:200px">
             <image-slot id="{{ p.slot }}" src="{{ p.photo }}" shape="rect" placeholder="{{ p.photoNote }}"></image-slot>
           </div>
-          <div style="padding:28px 28px 34px">
-            <div style="font-size:26px;font-weight:500;letter-spacing:-.03em;margin-bottom:12px">{{ p.title }}</div>
-            <div style="font-size:15.5px;line-height:1.6;color:#5D5D52">{{ p.body }}</div>
+          <div style="padding:28px 28px 32px;display:flex;flex-direction:column;gap:16px;flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+              <div style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:{{ p.pillBg }}">
+                <div style="width:6px;height:6px;border-radius:50%;background:{{ p.statusDot }}"></div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">{{ p.status }}</div>
+              </div>
+            </div>
+            <div style="font-size:28px;font-weight:500;letter-spacing:-.03em">{{ p.title }}</div>
+            <div style="font-size:15.5px;line-height:1.55;opacity:.82;flex:1">{{ p.body }}</div>
+            <div style="font-size:14.5px;font-weight:500">{{ p.cta }}</div>
           </div>
         </div>
       </sc-for>
@@ -355,48 +398,6 @@
     </div>
   </section>
   In founders' words (testimonials) — hidden for now -->
-
-  <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:44px">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">Programs</div>
-        <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0;max-width:20ch">Support designed around where your company is.</h2>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px">
-      <sc-for list="{{ programs }}" as="p" hint-placeholder-count="3">
-        <div style="border-radius:24px;overflow:hidden;background:{{ p.bg }};color:{{ p.fg }};display:flex;flex-direction:column">
-          <div style="position:relative;height:200px">
-            <image-slot id="{{ p.slot }}" src="{{ p.photo }}" shape="rect" placeholder="{{ p.photoNote }}"></image-slot>
-          </div>
-          <div style="padding:28px 28px 32px;display:flex;flex-direction:column;gap:16px;flex:1">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-              <div style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:{{ p.pillBg }}">
-                <div style="width:6px;height:6px;border-radius:50%;background:{{ p.statusDot }}"></div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">{{ p.status }}</div>
-              </div>
-            </div>
-            <div style="font-size:28px;font-weight:500;letter-spacing:-.03em">{{ p.title }}</div>
-            <div style="font-size:15.5px;line-height:1.55;opacity:.82;flex:1">{{ p.body }}</div>
-            <div style="font-size:14.5px;font-weight:500">{{ p.cta }}</div>
-          </div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
-  <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
-    <div style="background:#1C3F39;color:#FCFFEE;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
-      <div style="padding:64px 56px">
-        <h2 style="font-size:clamp(30px,3.4vw,46px);line-height:1.05;letter-spacing:-.035em;font-weight:500;margin:0 0 20px;max-width:18ch;text-wrap:balance">The South East Pitch Competition.</h2>
-        <p style="font-size:18px;line-height:1.6;color:#C6D4CE;margin:0 0 32px;max-width:52ch;text-wrap:pretty">Our flagship startup discovery and investment programme. The inaugural edition drew 1,086 founder applications from across the five states and the diaspora — selected companies receive investment and a place in the Accelerator or Incubator.</p>
-        <div onClick="{{ goPitch }}" style="display:inline-block;padding:16px 30px;background:#CAFC44;color:#1C3F39;font-weight:500;font-size:15.5px;border-radius:100px;cursor:pointer" style-hover="background:#FCFFEE">Explore the Pitch Competition →</div>
-      </div>
-      <div style="position:relative;min-height:340px">
-        <img src="img/h-DON00164.jpg" alt="Founder pitching at the South East Pitch Competition" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-      </div>
-    </div>
-  </section>
 
   <section style="max-width:1360px;margin:0 auto;padding:104px 32px 0">
     <div style="background:#F9F9F9;border-radius:28px;padding:56px">
