@@ -51,6 +51,9 @@
   .sevcp-burger{display:none}
   .m-hero-mobile{display:none}
   .m-featured-link-btm{display:none}
+  .eco-grid.eco-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  @media (max-width:1100px){.eco-grid.eco-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+  @media (max-width:760px){.eco-grid.eco-grid{grid-template-columns:1fr 1fr!important;gap:10px!important}}
   .sevcp-footer-grid{display:grid;grid-template-columns:minmax(260px,1.5fr) repeat(3,minmax(140px,1fr));gap:44px}
   @media (max-width:1024px){.sevcp-footer-grid{grid-template-columns:repeat(3,1fr)}.sevcp-footer-brand{grid-column:1/-1}}
   @media (max-width:760px){.sevcp-footer-grid{grid-template-columns:1fr 1fr!important;gap:36px 24px!important}.sevcp-footer-card{padding:44px 26px 32px!important}.sevcp-footer-bottom{flex-direction:column;align-items:flex-start!important}}
@@ -399,14 +402,22 @@
     <div style="background:#F9F9F9;border-radius:28px;padding:56px">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#237922;margin-bottom:18px">Our Ecosystem</div>
       <h2 style="font-size:clamp(32px,3.8vw,50px);line-height:1.04;letter-spacing:-.035em;font-weight:500;margin:0 0 40px">Built together.</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
-        <sc-for list="{{ partners }}" as="p" hint-placeholder-count="8">
-          <div style="background:#FFFFFF;border-radius:18px;padding:26px 24px;min-height:136px;display:flex;flex-direction:column;justify-content:space-between" style-hover="background:#FCFFEE">
-            <div style="font-size:16.5px;font-weight:500;letter-spacing:-.02em;line-height:1.3">{{ p.name }}</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ p.color }}">{{ p.type }}</div>
+      <sc-for list="{{ partnerGroups }}" as="g" hint-placeholder-count="3">
+        <div style="margin-bottom:34px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+            <div style="width:7px;height:7px;border-radius:50%;background:{{ g.color }}"></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#4A4A40">{{ g.title }}</div>
           </div>
-        </sc-for>
-      </div>
+          <div class="eco-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px">
+            <sc-for list="{{ g.items }}" as="p" hint-placeholder-count="3">
+              <div title="{{ p.name }}" style="background:#FFFFFF;border-radius:18px;padding:20px 14px;min-height:148px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center">
+                <img src="{{ p.logo }}" alt="{{ p.name }}" loading="lazy" style="max-height:{{ p.logoH }};max-width:82%;width:auto;height:auto;object-fit:contain;display:block">
+                <sc-if value="{{ p.seal }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;line-height:1.3;color:#5D5D52;max-width:20ch">{{ p.name }}</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
       <div onClick="{{ goPartners }}" style="margin-top:32px;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;border-radius:100px;background:#FFFFFF;cursor:pointer" style-hover="background:#CAFC44">Partner with SEVCP →</div>
     </div>
   </section>
@@ -2423,12 +2434,23 @@ class Component extends DCLogic {
         slot:'state-' + n.toLowerCase(), photo:statePhotos[n], photoNote:n + ' — city or economic activity',
         open: () => this.setState({page:'startups', region:n, q:'', program:'All', sector:'All', stage:'All'}, () => window.scrollTo(0,0))
       })),
-      partners: [
-        {name:'Federal Ministry of Regional Development',type:'Institutional Partner',color:'#237922'},
-        {name:'The Garage',type:'Implementing Partner',color:'#6ACDDD'},
-        {name:'Genesys Tech Hub',type:'Implementing Partner',color:'#6ACDDD'},
-        {name:'Startup South',type:'Implementing Partner',color:'#6ACDDD'}
-      ],
+      partnerGroups: [
+        {title:'Institutional partners', color:'#237922', items:[
+          {name:'Federal Ministry of Regional Development', logo:'img/partners/fmrd.webp', seal:true},
+          {name:'Abia State Government', logo:'img/partners/abia.webp', seal:true},
+          {name:'Anambra State Government', logo:'img/partners/anambra.webp', seal:true},
+          {name:'Ebonyi State Government', logo:'img/partners/ebonyi.webp', seal:true},
+          {name:'Enugu State Government', logo:'img/partners/enugu.webp', seal:true},
+          {name:'Imo State Government', logo:'img/partners/imo.webp', seal:true}]},
+        {title:'Implementing partners', color:'#2E9BAE', items:[
+          {name:'The Garage', logo:'img/partners/the-garage.webp'},
+          {name:'Genesys Tech Hub', logo:'img/partners/genesys.webp'},
+          {name:'Startup South', logo:'img/partners/startup-south.webp'}]},
+        {title:'Ecosystem partners', color:'#C79A16', items:[
+          {name:'Cascador', logo:'img/partners/cascador.webp'},
+          {name:'Ubulu Africa', logo:'img/partners/ubulu-africa.webp'},
+          {name:'Ventures Platform', logo:'img/partners/ventures-platform.webp'}]}
+      ].map(g => Object.assign(g, {items: g.items.map(p => Object.assign(p, {logoH: p.seal ? '68px' : (p.name === 'The Garage' || p.name === 'Cascador' ? '58px' : '40px')}))})),
       homeHasPosts: this.BLOG.length > 0,
       insights: this.BLOG.slice(0,3).map((p, i) => ({...p, category:p.cat, slot:'blog-post-' + (i+1), imageNote:p.title})),
       featured: CO.filter(c => c.featured).slice(0,6).map(c => this.decorate(c)),
