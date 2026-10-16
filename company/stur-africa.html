@@ -1191,6 +1191,7 @@
   </section>
   </sc-if>
 
+  <!-- Newsletter hidden until it exists:
   <section style="padding:64px 32px 90px">
     <div style="max-width:1360px;margin:0 auto;background:#1C3F39;color:#FCFFEE;border-radius:28px;padding:66px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px;align-items:center">
       <div>
@@ -1203,6 +1204,8 @@
       </div>
     </div>
   </section>
+  -->
+  <div style="height:90px"></div>
 
 </main>
 </sc-if>
@@ -2493,7 +2496,7 @@ class Component extends DCLogic {
         {title:'Program', links:[this.fLink('About SEVCP','about'), this.fLink('Portfolio','startups'), this.fLink('Pitch Competition','pitch-competition'), this.fLink('2026 Finalists','finalists')]},
         // Founder School hidden until it launches: add this.fLink('Founder School','academy', {academyTab:'Lessons'}) to Program.
         {title:'Get involved', links:[this.aLink('Join the founder pipeline', () => this.setState({apply:true, applySent:false, menu:null, mnav:false})), this.aLink('Partner with us', () => this.setState({partner:true, partnerSent:false, menu:null})), this.fLink('Our partners','partners')]},
-        {title:'Updates', links:[this.fLink('Blog','insights'), this.xLink('LinkedIn ↗','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X ↗','https://x.com/sedcgov'), this.xLink('Instagram ↗','https://www.instagram.com/sedcgov')]}
+        {title:'Updates', links:[this.fLink('Blog','insights'), this.xLink('LinkedIn ↗','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X ↗','https://x.com/SEVCP_SEDC'), this.xLink('Instagram ↗','https://www.instagram.com/sevcp_sedc/')]}
       ]
     };
   }
