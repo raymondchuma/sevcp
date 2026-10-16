@@ -91,8 +91,12 @@ fs.writeFileSync('pitch/finalists.html', head + fBlock + tail);
 // (cleanUrls is intentionally NOT used: it disables the catch-all fallback.)
 const rewrites = CO.map(c => ({ source: `/company/${c.slug}`, destination: `/company/${c.slug}.html` }));
 rewrites.push({ source: '/pitch/finalists', destination: '/pitch/finalists.html' });
+// Office Hours booking app (office-hours/, separate Vercel project) is served under the same domain.
+const OFFICE_HOURS_ORIGIN = 'https://sevcp-office-hours.vercel.app';
+rewrites.push({ source: '/office-hours', destination: `${OFFICE_HOURS_ORIGIN}/office-hours` });
+rewrites.push({ source: '/office-hours/:path*', destination: `${OFFICE_HOURS_ORIGIN}/office-hours/:path*` });
 // SPA catch-all — but leave /api/* to the serverless functions.
-rewrites.push({ source: '/((?!api/).*)', destination: '/index.html' });
+rewrites.push({ source: '/((?!api/|office-hours).*)', destination: '/index.html' });
 fs.writeFileSync('vercel.json', JSON.stringify({ rewrites }, null, 2) + '\n');
 
 console.log(`Wrote ${CO.length} company/*.html + pitch/finalists.html + og-data.json + vercel.json (${rewrites.length} rewrites)`);

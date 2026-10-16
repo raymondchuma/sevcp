@@ -1,0 +1,33 @@
+{
+  "name": "sevcp-office-hours",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SEVCP Office Hours booking app — one shared Google Calendar event (host + co-hosts + founder) per booking",
+  "scripts": {
+    "dev": "next dev -p 4620",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@neondatabase/serverless": "^1.2.0",
+    "luxon": "^3.7.2",
+    "next": "^15.5.15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1",
+    "ws": "^8.22.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/ws": "^8.18.2",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

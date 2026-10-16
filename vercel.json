@@ -105,7 +105,15 @@
       "destination": "/pitch/finalists.html"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/office-hours",
+      "destination": "https://sevcp-office-hours.vercel.app/office-hours"
+    },
+    {
+      "source": "/office-hours/:path*",
+      "destination": "https://sevcp-office-hours.vercel.app/office-hours/:path*"
+    },
+    {
+      "source": "/((?!api/|office-hours).*)",
       "destination": "/index.html"
     }
   ]
