@@ -51,6 +51,9 @@
   .sevcp-burger{display:none}
   .m-hero-mobile{display:none}
   .m-featured-link-btm{display:none}
+  .sevcp-footer-grid{display:grid;grid-template-columns:minmax(260px,1.5fr) repeat(3,minmax(140px,1fr));gap:44px}
+  @media (max-width:1024px){.sevcp-footer-grid{grid-template-columns:repeat(3,1fr)}.sevcp-footer-brand{grid-column:1/-1}}
+  @media (max-width:760px){.sevcp-footer-grid{grid-template-columns:1fr 1fr!important;gap:36px 24px!important}.sevcp-footer-card{padding:44px 26px 32px!important}.sevcp-footer-bottom{flex-direction:column;align-items:flex-start!important}}
   @media (max-width:760px){
     .m-featured-link-top{display:none!important}
     .m-featured-link-btm{display:flex!important}
@@ -1607,30 +1610,32 @@
 </sc-if>
 
 <footer style="margin-top:auto;padding:0 32px 32px">
-  <div style="max-width:1360px;margin:0 auto;background:#35352B;color:#FCFFEE;border-radius:28px;padding:64px 56px 40px">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:44px">
-      <div style="grid-column:span 2;min-width:240px">
+  <div class="sevcp-footer-card" style="max-width:1360px;margin:0 auto;background:#35352B;color:#FCFFEE;border-radius:28px;padding:64px 56px 36px">
+    <div class="sevcp-footer-grid">
+      <div class="sevcp-footer-brand">
         <div style="font-size:24px;font-weight:600;letter-spacing:-.03em;margin-bottom:16px">SEVCP</div>
-        <div style="font-size:17.5px;line-height:1.55;color:#C9C9BC;max-width:34ch">Backing ambitious founders building the next generation of companies from South East Nigeria.</div>
+        <div style="font-size:17px;line-height:1.55;color:#C9C9BC;max-width:34ch;margin-bottom:26px">Backing ambitious founders building the next generation of companies from South East Nigeria.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E80;margin-bottom:8px">Get in touch</div>
+        <a href="mailto:sevcp@sedc.gov.ng" style="font-size:15px;color:#FCFFEE;text-decoration:none;border-bottom:1px solid #6B6B5E;padding-bottom:2px" style-hover="color:#CAFC44">sevcp@sedc.gov.ng</a>
       </div>
       <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
-        <div>
+        <nav aria-label="{{ col.title }}">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E80;margin-bottom:18px">{{ col.title }}</div>
           <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4">
-            <a href="{{ l.href }}" target="{{ l.target }}" rel="noopener" onClick="{{ l.go }}" style="display:block;width:fit-content;font-size:14.5px;color:#D9D9CE;margin-bottom:11px;cursor:pointer;text-decoration:none" style-hover="color:#CAFC44">{{ l.label }}</a>
+            <a href="{{ l.href }}" target="{{ l.target }}" rel="noopener" onClick="{{ l.go }}" style="display:block;width:fit-content;font-size:14.5px;color:#D9D9CE;margin-bottom:12px;cursor:pointer;text-decoration:none" style-hover="color:#CAFC44">{{ l.label }}</a>
           </sc-for>
-        </div>
+        </nav>
       </sc-for>
     </div>
-    <div style="margin-top:48px;padding-top:24px;border-top:1px solid #4B4B3F;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center">
-      <div style="display:flex;align-items:center;gap:14px">
+    <div class="sevcp-footer-bottom" style="margin-top:52px;padding-top:24px;border-top:1px solid #4B4B3F;display:flex;justify-content:space-between;gap:18px 24px;flex-wrap:wrap;align-items:center">
+      <a href="https://www.sedc.gov.ng" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;text-decoration:none">
         <img src="uploads/sedc-logo.png" alt="SEDC" style="height:26px;width:auto">
-        <div style="font-size:12.5px;color:#9E9E90">An initiative of the South East Development Commission</div>
-      </div>
-      <div style="display:flex;gap:22px;font-size:12.5px;color:#9E9E90;flex-wrap:wrap">
+        <span style="font-size:12.5px;color:#9E9E90">An initiative of the South East Development Commission</span>
+      </a>
+      <div style="display:flex;gap:22px;font-size:12.5px;color:#9E9E90;flex-wrap:wrap;align-items:center">
         <a href="https://www.sedc.gov.ng/privacy-policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" style-hover="color:#CAFC44">Privacy</a>
         <a href="https://www.sedc.gov.ng/terms-of-use" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" style-hover="color:#CAFC44">Terms</a>
-        <div>© 2026 South East Development Commission</div>
+        <span>© 2026 South East Development Commission</span>
       </div>
     </div>
   </div>
@@ -2118,6 +2123,7 @@ class Component extends DCLogic {
     const st = Object.assign({page:page}, extra || {});
     return {label, href:this.stateToRoute(st), target:'_self', go:(e) => { if (e && (e.metaKey || e.ctrlKey || e.shiftKey)) return; if (e) e.preventDefault(); this.nav(page, extra); }};
   }
+  aLink(label, fn){ return {label, href:'#', target:'_self', go:(e) => { if (e) e.preventDefault(); fn(); }}; }
   xLink(label, href){ return {label, href, target:/^https?:/.test(href) ? '_blank' : '_self', go:() => {}}; }
   nav(page, extra){ this.setState(Object.assign({page:page, menu:null, mnav:false}, extra||{})); window.scrollTo(0,0); }
   toggleMenu(name){ this.setState(s => ({menu: s.menu === name ? null : name})); }
@@ -2484,9 +2490,10 @@ class Component extends DCLogic {
       submit: () => { if (s.consent) this.setState({sent:true}); },
 
       footerCols: [
-        {title:'Explore', links:[this.fLink('About','about'), this.fLink('Pitch','pitch-competition'), this.fLink('Portfolio','startups') /* Founder School hidden until it launches: , this.fLink('Founder School','academy', {academyTab:'Lessons'}) */]},
-        {title:'Ecosystem', links:[this.fLink('Partners','partners'), this.fLink('SEVCP Blog','insights'), this.fLink('Pitch Finalists','finalists')]},
-        {title:'Connect', links:[this.xLink('Contact','mailto:sevcp@sedc.gov.ng'), this.xLink('LinkedIn','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X','https://x.com/sedcgov')]}
+        {title:'Program', links:[this.fLink('About SEVCP','about'), this.fLink('Portfolio','startups'), this.fLink('Pitch Competition','pitch-competition'), this.fLink('2026 Finalists','finalists')]},
+        // Founder School hidden until it launches: add this.fLink('Founder School','academy', {academyTab:'Lessons'}) to Program.
+        {title:'Get involved', links:[this.aLink('Join the founder pipeline', () => this.setState({apply:true, applySent:false, menu:null, mnav:false})), this.aLink('Partner with us', () => this.setState({partner:true, partnerSent:false, menu:null})), this.fLink('Our partners','partners')]},
+        {title:'Updates', links:[this.fLink('Blog','insights'), this.xLink('LinkedIn ↗','https://www.linkedin.com/company/south-east-development-commission/'), this.xLink('X ↗','https://x.com/sedcgov'), this.xLink('Instagram ↗','https://www.instagram.com/sedcgov')]}
       ]
     };
   }
