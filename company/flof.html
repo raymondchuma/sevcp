@@ -54,6 +54,36 @@
   .eco-grid.eco-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
   @media (max-width:1100px){.eco-grid.eco-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
   @media (max-width:760px){.eco-grid.eco-grid{grid-template-columns:1fr 1fr!important;gap:10px!important}}
+  /* ── Motion layer (see fxInit). Everything here is opt-in via JS-set attributes,
+     so content is never hidden without JS, and it is all off for reduced motion. ── */
+  @keyframes fxUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  @keyframes fxUpSm{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:no-preference){
+    [data-reveal]:not([data-reveal="in"]){opacity:0}
+    [data-reveal="in"]{animation:fxUp .8s cubic-bezier(.2,.7,.2,1) var(--fx-d,0ms) backwards}
+    [data-reveal-item]:not([data-reveal-item="in"]){opacity:0}
+    [data-reveal-item="in"]{animation:fxUpSm .7s cubic-bezier(.2,.7,.2,1) var(--fx-d,0ms) backwards}
+    #sevcp-progress{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#237922,#CAFC44);transform-origin:0 50%;transform:scaleX(0);z-index:1000;pointer-events:none}
+    .m-featured > div{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+    .m-featured > div:hover{box-shadow:0 18px 40px -24px rgba(28,63,57,.5)}
+    .m-featured img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+    .m-featured > div:hover img{transform:scale(1.06)}
+    .eco-grid > div{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+    .eco-grid > div:hover{transform:translateY(-3px);box-shadow:0 14px 30px -20px rgba(28,63,57,.45)}
+    .eco-grid img{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+    .eco-grid > div:hover img{transform:scale(1.05)}
+    [style*="aspect-ratio: 4 / 3"]{overflow:hidden}
+    [style*="aspect-ratio: 4 / 3"] img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+    :hover > [style*="aspect-ratio: 4 / 3"] img{transform:scale(1.045)}
+    img[src*="h-DON00164"]{transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+    section:hover img[src*="h-DON00164"]{transform:scale(1.05)}
+    [style*="border-radius: 100px"][style*="cursor: pointer"]{transition:transform .15s ease,background-color .2s,border-color .2s,color .2s}
+    [style*="border-radius: 100px"][style*="cursor: pointer"]:active{transform:scale(.96)}
+    [data-glow]{position:relative;isolation:isolate}
+    [data-glow]::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;transition:opacity .35s;
+      background:radial-gradient(520px circle at var(--fx-mx,50%) var(--fx-my,50%),rgba(255,255,255,.6),transparent 62%)}
+    [data-glow]:hover::before{opacity:1}
+  }
   .sevcp-footer-grid{display:grid;grid-template-columns:minmax(260px,1.5fr) repeat(3,minmax(140px,1fr));gap:44px}
   @media (max-width:1024px){.sevcp-footer-grid{grid-template-columns:repeat(3,1fr)}.sevcp-footer-brand{grid-column:1/-1}}
   @media (max-width:760px){.sevcp-footer-grid{grid-template-columns:1fr 1fr!important;gap:36px 24px!important}.sevcp-footer-card{padding:44px 26px 32px!important}.sevcp-footer-bottom{flex-direction:column;align-items:flex-start!important}}
@@ -2058,8 +2088,9 @@ class Component extends DCLogic {
     document.title = this.routeTitle();
     this._onRoute = () => { const st = this.routeToState(location.pathname, location.search); if (st) this.setState(st); };
     window.addEventListener('popstate', this._onRoute);
+    this.fxInit();
   }
-  componentWillUnmount(){ clearInterval(this._t); document.removeEventListener('mousedown', this._away); window.removeEventListener('popstate', this._onRoute); window.removeEventListener('hashchange', this._onRoute); }
+  componentWillUnmount(){ if (this._fxIO) this._fxIO.disconnect(); if (this._fxMO) this._fxMO.disconnect(); window.removeEventListener('scroll', this._fxScroll); document.removeEventListener('pointermove', this._fxMove); clearInterval(this._t); document.removeEventListener('mousedown', this._away); window.removeEventListener('popstate', this._onRoute); window.removeEventListener('hashchange', this._onRoute); }
   _away = (e) => { if (this.state.menu && e.target.closest && !e.target.closest('header')) this.setState({menu:null}); };
   pickHero(i){ clearInterval(this._t); this.setState({hero:i}); }
 
@@ -2133,6 +2164,58 @@ class Component extends DCLogic {
 
   componentDidUpdate(){ this.syncRoute(); }
 
+  // ── Motion layer: scroll reveals, metric count-up, progress bar, CTA spotlight.
+  // Attributes are added from JS only (no JS = everything visible); skipped for reduced motion.
+  fxInit(){
+    if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion:reduce)').matches || !('IntersectionObserver' in window)) return;
+    this._fxIO = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target; this._fxIO.unobserve(el);
+        if (el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'in');
+        if (el.hasAttribute('data-reveal-item')) el.setAttribute('data-reveal-item', 'in');
+        if (el.hasAttribute('data-count')) this.fxCount(el);
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+    let t = null;
+    this._fxMO = new MutationObserver(() => { clearTimeout(t); t = setTimeout(() => this.fxScan(), 60); });
+    this._fxMO.observe(document.body, {childList:true, subtree:true});
+    const bar = document.createElement('div'); bar.id = 'sevcp-progress'; document.body.appendChild(bar);
+    let ticking = false;
+    this._fxScroll = () => { if (ticking) return; ticking = true; requestAnimationFrame(() => {
+      const h = document.documentElement.scrollHeight - innerHeight; bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; ticking = false; }); };
+    window.addEventListener('scroll', this._fxScroll, {passive:true}); this._fxScroll();
+    this._fxMove = (e) => { const g = e.target.closest && e.target.closest('[data-glow]'); if (!g) return;
+      const r = g.getBoundingClientRect(); g.style.setProperty('--fx-mx', (e.clientX - r.left) + 'px'); g.style.setProperty('--fx-my', (e.clientY - r.top) + 'px'); };
+    document.addEventListener('pointermove', this._fxMove, {passive:true});
+    this.fxScan();
+  }
+  fxScan(){
+    const io = this._fxIO; if (!io) return;
+    const main = document.querySelector('main'); if (!main) return;
+    const watch = (el) => { el.setAttribute('data-fx', ''); io.observe(el); };
+    [...main.children].forEach(el => { if (!el.hasAttribute('data-fx') && el.tagName === 'SECTION'){ el.setAttribute('data-reveal', ''); watch(el); } });
+    main.querySelectorAll('[style*="display: grid"]').forEach(g => {
+      const kids = [...g.children].filter(k => k.nodeType === 1);
+      if (kids.length < 2 || g.closest('footer')) return;
+      kids.forEach((k, i) => { if (k.hasAttribute('data-fx')) return; k.style.setProperty('--fx-d', Math.min(i, 7) * 70 + 120 + 'ms'); k.setAttribute('data-reveal-item', ''); watch(k); });
+    });
+    main.querySelectorAll('.m-metrics > div > div:first-child').forEach(el => { if (!el.hasAttribute('data-count') && /\d/.test(el.textContent)){ const n = this.fxText(el); if (!n) return; el.setAttribute('data-count', n.nodeValue); n.nodeValue = n.nodeValue.replace(/[\d,.]+/, '0'); io.observe(el); } });
+    main.querySelectorAll('h2').forEach(h => { if (/next great African company/i.test(h.textContent)){ const box = h.parentElement; if (box && !box.hasAttribute('data-glow')) box.setAttribute('data-glow', ''); } });
+  }
+  fxText(el){ const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n = tw.nextNode(); while (n && !n.nodeValue.trim()) n = tw.nextNode(); return n; }
+  fxCount(el){
+    // Animate React's own text node in place (never replace it), so later re-renders still land.
+    const node = this.fxText(el); if (!node) return;
+    const raw = el.getAttribute('data-count') || node.nodeValue; const m = raw.match(/^(\D*)([\d,.]+)(.*)$/); if (!m) return;
+    const target = parseFloat(m[2].replace(/,/g, '')); const comma = m[2].includes(','); const dec = (m[2].split('.')[1] || '').length;
+    const fmt = v => { let s = v.toFixed(dec); if (comma) s = Number(s).toLocaleString('en-US', {minimumFractionDigits:dec, maximumFractionDigits:dec}); return m[1] + s + m[3]; };
+    const t0 = performance.now(), dur = 1500;
+    const step = (now) => { const p = Math.min(1, (now - t0) / dur); const e = 1 - Math.pow(2, -10 * p);
+      if (node.nodeValue !== raw && p > 0 && !node.nodeValue.startsWith(m[1])) return; // value changed underneath us
+      node.nodeValue = p < 1 ? fmt(target * e) : raw; if (p < 1) requestAnimationFrame(step); };
+    node.nodeValue = fmt(0); requestAnimationFrame(step);
+  }
   // Footer links: real hrefs (crawlable, middle-click) with in-app navigation for internal pages.
   fLink(label, page, extra){
     const st = Object.assign({page:page}, extra || {});
