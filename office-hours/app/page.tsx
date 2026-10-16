@@ -15,7 +15,7 @@ export default async function Page() {
         <p>Book a session with the South East Venture Capital Program team to discuss your startup&rsquo;s progress, review existing milestones, and establish new milestones for your next phase of growth.</p>
         <p>Whether you need guidance on your business strategy, support navigating the program, or help defining clear, actionable goals, use this session to align on priorities, address challenges, and agree on the next steps to move your startup forward.</p>
         <div className="facts">
-          <span className="fact">{s.appointment_duration_minutes} minutes</span><span className="fact">Google Meet</span><span className="fact">{hoursSummary(s.availability_rules)} WAT</span><span className="fact">Up to {s.maximum_bookings_per_day} sessions a day</span><span className="fact">No account needed</span>
+          <span className="fact">{s.appointment_duration_minutes} minutes</span><span className="fact">Google Meet</span><span className="fact">{hoursSummary(s.availability_rules)} WAT</span><span className="fact">No account needed</span>
         </div>
       </section>
       <div className="grid">
